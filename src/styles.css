@@ -1,0 +1,169 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-display: "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Jost", system-ui, sans-serif;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-gold: var(--gold);
+  --color-gold-soft: var(--gold-soft);
+  --color-ink: var(--ink);
+  --color-ink-foreground: var(--ink-foreground);
+  --color-ivory: var(--ivory);
+}
+
+:root {
+  --radius: 0.125rem;
+  --background: oklch(0.975 0.01 85);
+  --foreground: oklch(0.22 0.02 55);
+  --card: oklch(0.99 0.006 85);
+  --card-foreground: oklch(0.22 0.02 55);
+  --popover: oklch(0.99 0.006 85);
+  --popover-foreground: oklch(0.22 0.02 55);
+  --primary: oklch(0.2 0.02 55);
+  --primary-foreground: oklch(0.96 0.02 85);
+  --secondary: oklch(0.93 0.02 80);
+  --secondary-foreground: oklch(0.22 0.02 55);
+  --muted: oklch(0.94 0.015 80);
+  --muted-foreground: oklch(0.48 0.025 60);
+  --accent: oklch(0.74 0.11 80);
+  --accent-foreground: oklch(0.18 0.02 55);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.98 0 0);
+  --border: oklch(0.86 0.03 80);
+  --input: oklch(0.86 0.03 80);
+  --ring: oklch(0.74 0.11 80);
+  --gold: oklch(0.74 0.11 80);
+  --gold-soft: oklch(0.85 0.07 85);
+  --ink: oklch(0.17 0.015 55);
+  --ink-foreground: oklch(0.94 0.025 85);
+  --ivory: oklch(0.97 0.015 85);
+  --gradient-veil: linear-gradient(180deg, oklch(0.12 0.01 55 / 0.55) 0%, oklch(0.12 0.01 55 / 0.15) 40%, oklch(0.12 0.01 55 / 0.85) 100%);
+  --gradient-gold: linear-gradient(120deg, oklch(0.68 0.1 75), oklch(0.86 0.08 88), oklch(0.68 0.1 75));
+}
+
+@layer base {
+  * { border-color: var(--color-border); }
+  html { scroll-behavior: smooth; }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-weight: 300;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 400; letter-spacing: -0.01em; }
+}
+
+@utility eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--gold);
+}
+@utility veil { background: var(--gradient-veil); }
+@utility text-gold-gradient {
+  background: var(--gradient-gold);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+@utility gold-rule {
+  height: 1px;
+  width: 4rem;
+  background: var(--gradient-gold);
+}
+@utility btn-gold {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  padding: 0.95rem 2rem;
+  font-size: 0.72rem; letter-spacing: 0.3em; text-transform: uppercase; font-weight: 500;
+  background: var(--gold); color: var(--accent-foreground);
+  transition: all 0.4s ease;
+  &:hover { background: var(--gold-soft); }
+}
+@utility btn-outline-light {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  padding: 0.95rem 2rem;
+  font-size: 0.72rem; letter-spacing: 0.3em; text-transform: uppercase; font-weight: 500;
+  border: 1px solid color-mix(in oklab, var(--ink-foreground) 60%, transparent);
+  color: var(--ink-foreground);
+  transition: all 0.4s ease;
+  &:hover { background: var(--ink-foreground); color: var(--ink); }
+}
+@utility btn-outline-dark {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  padding: 0.95rem 2rem;
+  font-size: 0.72rem; letter-spacing: 0.3em; text-transform: uppercase; font-weight: 500;
+  border: 1px solid var(--foreground);
+  color: var(--foreground);
+  transition: all 0.4s ease;
+  &:hover { background: var(--foreground); color: var(--background); }
+}
+@utility img-zoom {
+  overflow: hidden;
+  & img { transition: transform 1.4s cubic-bezier(.2,.7,.2,1); }
+  &:hover img { transform: scale(1.06); }
+}
+
+@keyframes rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+@keyframes slowzoom { from { transform: scale(1.12); } to { transform: scale(1); } }
+@utility animate-rise { animation: rise 1.2s cubic-bezier(.2,.7,.2,1) both; }
+@utility animate-slowzoom { animation: slowzoom 9s ease-out both; }
+@keyframes veilin { from { opacity: 0; } to { opacity: 1; } }
+@utility animate-rise-late { animation: veilin 1.8s ease-in-out 0.6s both; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-delay: 0ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
+
+@utility num {
+  font-family: var(--font-sans);
+  font-variant-numeric: lining-nums tabular-nums;
+  font-feature-settings: "lnum" 1, "tnum" 1;
+  letter-spacing: 0.04em;
+  font-weight: 300;
+}
+@utility lux-input {
+  width: 100%;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--border);
+  padding: 0.6rem 0;
+  font-size: 1rem;
+  color: var(--foreground);
+  outline: none;
+  transition: border-color .3s;
+  &:focus { border-bottom-color: var(--gold); }
+}
+@utility grain {
+  position: relative;
+  &::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .07; mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence baseFrequency='0.9'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
+}
+@layer base { h1, h2, h3, h4 { font-variant-numeric: lining-nums; } }
