@@ -114,3 +114,6 @@ export const testimonials = [
 ];
 
 export const inr = (n: number) => "₹" + n.toLocaleString("en-IN");
+
+export const roomSlug = (name: string) => name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+export const findRoom = (slug: string) => rooms.find((r) => roomSlug(r.name) === slug);

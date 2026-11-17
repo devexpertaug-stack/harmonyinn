@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useBooking } from "@/components/site/Booking";
 import { posts, postImage } from "@/lib/journal";
-import { img, rooms, testimonials, inr, contact, venues, weekly } from "@/lib/hotel";
+import { img, rooms, testimonials, inr, contact, venues, weekly, roomSlug } from "@/lib/hotel";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -71,29 +71,29 @@ function Home() {
       </section>
 
       {/* INTRO */}
-      <section className="mx-auto max-w-5xl px-6 py-28 text-center md:py-40">
-        <div className="eyebrow">Est. Meerut · Renewed <span className="num">2024</span></div>
-        <p className="mt-10 font-display text-3xl leading-[1.35] sm:text-4xl md:text-[2.75rem]">
-          A grand house on Garh Road, newly renewed. You get rooms dressed in marble and jaali, a kitchen people across the city talk about, and halls that have hosted many of Meerut's weddings.
-        </p>
-        <div className="mx-auto mt-14 flex max-w-2xl justify-between border-t pt-8 text-left">
-          {[["4", "Star grand luxury"], ["500", "Banquet guests"], ["45m", "Royal Casa terrace"]].map(([n, l]) => (
-            <div key={l}>
-              <div className="num text-3xl text-gold sm:text-4xl">{n}</div>
-              <div className="mt-2 text-[0.6rem] uppercase tracking-[0.25em] text-muted-foreground">{l}</div>
-            </div>
-          ))}
+      <section className="mx-auto grid max-w-7xl grid-cols-12 gap-x-6 gap-y-12 px-6 py-24 md:py-36">
+        <div className="col-span-12 md:col-span-5">
+          <div className="eyebrow">Opp. Nai Sadak · Garh Road</div>
+          <h2 className="mt-6 text-5xl leading-[1.02] sm:text-6xl md:text-7xl">A grand house,<br /><em className="text-gold">quietly renewed.</em></h2>
+          <p className="mt-8 max-w-md leading-relaxed text-muted-foreground">
+            Carved jaali, warm marble and staff who remember your name. Since <span className="num">2024</span>, Hotel Harmony Inn has been fully renewed, with new rooms, Melting Pot, Barrel and four banquet halls.
+          </p>
+          <dl className="mt-12 grid max-w-md grid-cols-3 border-y">
+            {[["4★", "Grand luxury"], ["500", "Banquet guests"], ["45 m", "Royal Casa"]].map(([n, l], i) => (
+              <div key={l} className={`py-6 ${i ? "border-l pl-5" : ""}`}>
+                <dt className="num text-3xl text-gold">{n}</dt>
+                <dd className="mt-2 text-[0.58rem] uppercase tracking-[0.25em] text-muted-foreground">{l}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
-      </section>
-
-      <section className="mx-auto grid max-w-7xl grid-cols-12 gap-4 px-6 md:gap-6">
-        <div className="img-zoom col-span-12 aspect-[4/5] md:col-span-7 md:aspect-auto md:h-[46rem]"><img src={img.reception} alt="Reception under the carved jaali ceiling" loading="lazy" className="h-full w-full object-cover" /></div>
-        <div className="col-span-12 flex flex-col gap-4 md:col-span-5 md:gap-6">
-          <div className="img-zoom aspect-[16/10]"><img src={img.lounge} alt="Lobby lounge with carved seating" loading="lazy" className="h-full w-full object-cover" /></div>
-          <div className="flex flex-1 flex-col justify-end bg-secondary p-8">
+        <div className="relative col-span-12 md:col-span-7">
+          <div className="img-zoom aspect-[4/5] md:ml-16 md:aspect-[5/6]"><img src={img.reception} alt="Reception under the carved jaali ceiling" loading="lazy" className="h-full w-full object-cover" /></div>
+          <div className="img-zoom absolute -bottom-10 left-0 hidden w-[42%] border-8 border-background md:block"><img src={img.lounge} alt="Lobby lounge" loading="lazy" className="aspect-square w-full object-cover" /></div>
+          <figure className="mt-8 max-w-sm bg-ink p-7 text-ink-foreground md:absolute md:-right-2 md:-bottom-14 md:mt-0">
             <div className="eyebrow">Every stay includes</div>
-            <p className="mt-3 font-display text-2xl leading-snug">Buffet breakfast, free valet parking, power back-up around the clock and quiet, discreet security.</p>
-          </div>
+            <p className="mt-3 font-display text-xl leading-snug">Buffet breakfast, free valet parking, round-the-clock power back-up and discreet security.</p>
+          </figure>
         </div>
       </section>
 
@@ -109,23 +109,27 @@ function Home() {
         <div className="mt-16 grid items-start gap-12 md:grid-cols-[1fr_1.1fr]">
           <ul>
             {rooms.map((r, i) => (
-              <li key={r.name} onMouseEnter={() => setActive(i)}
-                className={`group cursor-pointer border-t py-7 transition ${active === i ? "" : "opacity-50 hover:opacity-100"}`}
-                onClick={() => openBooking("room", r.name)}>
+              <li key={r.name} onMouseEnter={() => setActive(i)} onClick={() => setActive(i)}
+                className={`group cursor-pointer border-t py-7 transition ${active === i ? "" : "opacity-50 hover:opacity-100"}`}>
                 <div className="flex items-baseline gap-6">
-                                    <h3 className="flex-1 text-3xl sm:text-4xl">{r.name}</h3>
+                  <h3 className="flex-1 text-3xl sm:text-4xl">{r.name}</h3>
                   <span className="num hidden text-xs uppercase tracking-[0.2em] text-muted-foreground sm:inline">{r.size}</span>
                 </div>
                 <div className={`grid transition-all duration-500 ${active === i ? "mt-4 grid-rows-[1fr]" : "grid-rows-[0fr]"}`}>
                   <div className="overflow-hidden">
+                    <img src={r.image} alt={r.name} loading="lazy" className="mb-5 aspect-[4/3] w-full object-cover md:hidden" />
                     <p className="text-muted-foreground">{r.text}</p>
-                    <span className="mt-4 inline-block text-[0.65rem] uppercase tracking-[0.3em] text-gold">Reserve · <span className="num">{inr(r.price)}</span> + GST</span>
+                    <div className="mt-3 text-sm"><span className="num">{r.size}</span> · {r.bed} · <span className="num">{inr(r.price)}</span> + GST</div>
+                    <div className="mt-5 flex flex-wrap gap-6 text-[0.65rem] uppercase tracking-[0.3em]">
+                      <Link to="/rooms/$slug" params={{ slug: roomSlug(r.name) }} onClick={(e) => e.stopPropagation()} className="border-b border-foreground pb-1 hover:text-gold">View room</Link>
+                      <button onClick={(e) => { e.stopPropagation(); openBooking("room", r.name); }} className="border-b border-gold pb-1 text-gold">Reserve</button>
+                    </div>
                   </div>
                 </div>
               </li>
             ))}
           </ul>
-          <div className="relative aspect-[4/5] overflow-hidden md:sticky md:top-28">
+          <div className="relative hidden aspect-[4/5] overflow-hidden md:sticky md:top-28 md:block">
             {rooms.map((r, i) => (
               <img key={r.name} src={r.image} alt={r.name} loading="lazy"
                 className={`absolute inset-0 h-full w-full object-cover transition-all duration-1000 ${active === i ? "scale-100 opacity-100" : "scale-105 opacity-0"}`} />

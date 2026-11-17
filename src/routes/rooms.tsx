@@ -1,7 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useBooking } from "@/components/site/Booking";
 import { PageHero, SectionTitle } from "@/components/site/SiteChrome";
-import { img, rooms, silentFeatures, policies, extraBed, inr } from "@/lib/hotel";
+import { img, rooms, silentFeatures, policies, extraBed, inr, roomSlug } from "@/lib/hotel";
 
 export const Route = createFileRoute("/rooms")({
   head: () => ({
@@ -66,7 +66,7 @@ function Rooms() {
                   <div className="mt-8 border-t pt-6">
                     <span className="num text-3xl">{inr(r.price)}</span> <span className="text-sm text-muted-foreground">+ GST, per night</span>
                   </div>
-                  <button onClick={() => openBooking("room", r.name)} className="btn-outline-dark mt-6">Reserve this room</button>
+                  <div className="mt-6 flex flex-wrap items-center gap-6"><button onClick={() => openBooking("room", r.name)} className="btn-outline-dark">Reserve this room</button><Link to="/rooms/$slug" params={{ slug: roomSlug(r.name) }} className="border-b border-gold pb-1 text-[0.65rem] uppercase tracking-[0.3em] text-gold">View room</Link></div>
                 </div>
               </article>
             );
