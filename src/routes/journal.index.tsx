@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageHero } from "@/components/site/SiteChrome";
-import { img } from "@/lib/hotel";
+import { heroes, img } from "@/lib/hotel";
 import { posts, postImage } from "@/lib/journal";
 
 export const Route = createFileRoute("/journal/")({
@@ -21,7 +21,7 @@ function Journal() {
   const [lead, ...rest] = posts;
   return (
     <>
-      <PageHero eyebrow="The Journal" title="Notes from Garh Road" image={img.chandelier} />
+      <PageHero eyebrow="The Journal" title="Notes from Garh Road" image={heroes.journal} />
       <section className="mx-auto max-w-7xl px-6 py-24">
         <Link to="/journal/$slug" params={{ slug: lead!.slug }} className="group grid grid-cols-12 gap-6 border-b pb-20">
           <div className="img-zoom col-span-12 aspect-[16/10] md:col-span-8"><img src={postImage(lead!)} alt="" className="h-full w-full object-cover" /></div>

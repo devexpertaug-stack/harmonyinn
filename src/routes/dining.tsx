@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useBooking } from "@/components/site/Booking";
 import { PageHero } from "@/components/site/SiteChrome";
-import { img, contact, pdas, weekly, seasonal } from "@/lib/hotel";
+import { heroes, img, contact, pdas, weekly, seasonal } from "@/lib/hotel";
 
 export const Route = createFileRoute("/dining")({
   head: () => ({
@@ -22,7 +22,7 @@ function Dining() {
   const { openBooking } = useBooking();
   return (
     <>
-      <PageHero eyebrow="Dining & Nightlife" title="Savour. Linger. Celebrate." image={img.dining} />
+      <PageHero eyebrow="Dining & Nightlife" title="Savour. Linger. Celebrate." image={heroes.dining} />
       <section className="mx-auto grid max-w-7xl grid-cols-12 gap-6 px-6 py-24 md:py-32">
         <div className="col-span-12 md:col-span-5">
           <div className="eyebrow">Melting Pot · Restaurant</div>

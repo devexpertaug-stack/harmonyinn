@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHero } from "@/components/site/SiteChrome";
-import { img, contact } from "@/lib/hotel";
+import { heroes, img, contact } from "@/lib/hotel";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -19,7 +19,7 @@ export const Route = createFileRoute("/contact")({
 function Contact() {
   return (
     <>
-      <PageHero eyebrow="Contact" title="We look forward to welcoming you." image={img.lobby} />
+      <PageHero eyebrow="Contact" title="We look forward to welcoming you." image={heroes.contact} />
       <section className="mx-auto grid max-w-7xl gap-px bg-border px-0 md:my-28 md:grid-cols-3">
         <div className="bg-background p-12">
           <div className="eyebrow">Address</div>

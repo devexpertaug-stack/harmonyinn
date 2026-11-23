@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useBooking } from "@/components/site/Booking";
 import { PageHero } from "@/components/site/SiteChrome";
-import { img, venues, contact } from "@/lib/hotel";
+import { heroes, img, venues, contact } from "@/lib/hotel";
 
 export const Route = createFileRoute("/banquets")({
   head: () => ({
@@ -22,7 +22,7 @@ function Banquets() {
   const [lead, ...rest] = venues;
   return (
     <>
-      <PageHero eyebrow="Banquets & Events" title="Celebrations, dressed for royalty." image={img.banquet} />
+      <PageHero eyebrow="Banquets & Events" title="Celebrations, dressed for royalty." image={heroes.banquets} />
       <section className="mx-auto grid max-w-7xl grid-cols-12 gap-6 px-6 py-24 md:py-32">
         <div className="col-span-12 md:col-span-5">
           <div className="eyebrow">{lead!.capacity}</div>

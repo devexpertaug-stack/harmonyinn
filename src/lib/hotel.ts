@@ -117,3 +117,18 @@ export const inr = (n: number) => "₹" + n.toLocaleString("en-IN");
 
 export const roomSlug = (name: string) => name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 export const findRoom = (slug: string) => rooms.find((r) => roomSlug(r.name) === slug);
+
+const g = import.meta.glob("@/assets/photos/g/*.asset.json", { eager: true, import: "default" }) as Record<string, { url: string }>;
+const gp = (n: string) => g[`/src/assets/photos/g/${n}.jpg.asset.json`]?.url ?? "";
+export const heroes = { rooms: gp("pres1"), dining: gp("hero-dining"), banquets: gp("hero-banquet"), contact: gp("hero-facade-day"), journal: gp("hero-porch") };
+const galleries: Record<string, string[]> = {
+  "Executive Twin Bed Room": [0, 1, 2, 3, 4, 5, 6].map((i) => gp(`exec${i}`)),
+  "Deluxe Room": [3, 4, 5, 6, 7].map((i) => gp(`deluxe${i}`)),
+  "Harmony Suite": [suite.url, suite2.url],
+  "Presidential Suite": [1, 2, 3, 4, 5, 6, 7].map((i) => gp(`pres${i}`)),
+};
+export const roomGallery = (name: string) => {
+  const r = rooms.find((x) => x.name === name);
+  const list = (galleries[name] ?? []).filter(Boolean);
+  return list.length ? list : r ? [r.image, r.alt] : [];
+};
