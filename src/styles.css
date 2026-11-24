@@ -5,12 +5,15 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-display: "Cormorant Garamond", Georgia, serif;
-  --font-sans: "Jost", system-ui, sans-serif;
+  --font-display: "Marcellus", "Optima", Georgia, serif;
+  --font-accent: "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Manrope", system-ui, sans-serif;
+
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -30,140 +33,320 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-gold: var(--gold);
-  --color-gold-soft: var(--gold-soft);
+
+  /* Harmony palette: ivory whites, royal blues, a whisper of gold */
+  --color-royal: var(--royal);
+  --color-royal-deep: var(--royal-deep);
+  --color-royal-soft: var(--royal-soft);
   --color-ink: var(--ink);
   --color-ink-foreground: var(--ink-foreground);
+  --color-mist: var(--mist);
+  --color-powder: var(--powder);
   --color-ivory: var(--ivory);
+  --color-cream: var(--cream);
+  --color-gold: var(--gold);
+  --color-gold-soft: var(--gold-soft);
 }
 
 :root {
-  --radius: 0.125rem;
-  --background: oklch(0.975 0.01 85);
-  --foreground: oklch(0.22 0.02 55);
-  --card: oklch(0.99 0.006 85);
-  --card-foreground: oklch(0.22 0.02 55);
-  --popover: oklch(0.99 0.006 85);
-  --popover-foreground: oklch(0.22 0.02 55);
-  --primary: oklch(0.2 0.02 55);
-  --primary-foreground: oklch(0.96 0.02 85);
-  --secondary: oklch(0.93 0.02 80);
-  --secondary-foreground: oklch(0.22 0.02 55);
-  --muted: oklch(0.94 0.015 80);
-  --muted-foreground: oklch(0.48 0.025 60);
-  --accent: oklch(0.74 0.11 80);
-  --accent-foreground: oklch(0.18 0.02 55);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(0.86 0.03 80);
-  --input: oklch(0.86 0.03 80);
-  --ring: oklch(0.74 0.11 80);
-  --gold: oklch(0.74 0.11 80);
-  --gold-soft: oklch(0.85 0.07 85);
-  --ink: oklch(0.17 0.015 55);
-  --ink-foreground: oklch(0.94 0.025 85);
-  --ivory: oklch(0.97 0.015 85);
-  --gradient-veil: linear-gradient(180deg, oklch(0.12 0.01 55 / 0.55) 0%, oklch(0.12 0.01 55 / 0.15) 40%, oklch(0.12 0.01 55 / 0.85) 100%);
-  --gradient-gold: linear-gradient(120deg, oklch(0.68 0.1 75), oklch(0.86 0.08 88), oklch(0.68 0.1 75));
+  --radius: 0.75rem;
+
+  --ivory: #fcfbf8;
+  --cream: #f6f2ea;
+  --mist: #e7ecf4;
+  --powder: #cfd9ea;
+  --royal: #233b8c;
+  --royal-deep: #182b6b;
+  --royal-soft: #5b74b8;
+  --ink: #0f1a3a;
+  --ink-foreground: #f4f1ea;
+  --gold: #b08d57;
+  --gold-soft: #d9c39a;
+
+  --background: var(--ivory);
+  --foreground: #17203b;
+  --card: #ffffff;
+  --card-foreground: #17203b;
+  --popover: #ffffff;
+  --popover-foreground: #17203b;
+  --primary: var(--royal);
+  --primary-foreground: #ffffff;
+  --secondary: var(--mist);
+  --secondary-foreground: #17203b;
+  --muted: #f1efe9;
+  --muted-foreground: #5d6479;
+  --accent: var(--mist);
+  --accent-foreground: var(--royal-deep);
+  --destructive: #b3261e;
+  --destructive-foreground: #ffffff;
+  --border: #e3e0d8;
+  --input: #d9d6cd;
+  --ring: var(--royal);
+
+  --veil-top: linear-gradient(180deg, rgb(10 16 38 / 0.55) 0%, rgb(10 16 38 / 0) 100%);
+  --veil: linear-gradient(180deg, rgb(10 16 38 / 0.35) 0%, rgb(10 16 38 / 0.1) 40%, rgb(10 16 38 / 0.6) 100%);
 }
 
 @layer base {
-  * { border-color: var(--color-border); }
-  html { scroll-behavior: smooth; }
+  * {
+    border-color: var(--color-border);
+  }
+  html {
+    scroll-behavior: smooth;
+  }
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
-    font-weight: 300;
+    font-weight: 400;
+    font-size: 0.97rem;
+    line-height: 1.7;
     -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
-  h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 400; letter-spacing: -0.01em; }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: 0.005em;
+    line-height: 1.15;
+    font-variant-numeric: lining-nums;
+  }
+  em.accent,
+  .accent {
+    font-family: var(--font-accent);
+    font-style: italic;
+    font-weight: 500;
+    letter-spacing: 0;
+  }
+  ::selection {
+    background: var(--powder);
+    color: var(--ink);
+  }
+  summary {
+    list-style: none;
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
 }
 
+/* Small uppercase label above headings */
 @utility eyebrow {
   font-family: var(--font-sans);
-  font-size: 0.7rem;
-  letter-spacing: 0.35em;
+  font-size: 0.68rem;
+  letter-spacing: 0.28em;
   text-transform: uppercase;
-  font-weight: 500;
-  color: var(--gold);
-}
-@utility veil { background: var(--gradient-veil); }
-@utility text-gold-gradient {
-  background: var(--gradient-gold);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-@utility gold-rule {
-  height: 1px;
-  width: 4rem;
-  background: var(--gradient-gold);
-}
-@utility btn-gold {
-  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
-  padding: 0.95rem 2rem;
-  font-size: 0.72rem; letter-spacing: 0.3em; text-transform: uppercase; font-weight: 500;
-  background: var(--gold); color: var(--accent-foreground);
-  transition: all 0.4s ease;
-  &:hover { background: var(--gold-soft); }
-}
-@utility btn-outline-light {
-  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
-  padding: 0.95rem 2rem;
-  font-size: 0.72rem; letter-spacing: 0.3em; text-transform: uppercase; font-weight: 500;
-  border: 1px solid color-mix(in oklab, var(--ink-foreground) 60%, transparent);
-  color: var(--ink-foreground);
-  transition: all 0.4s ease;
-  &:hover { background: var(--ink-foreground); color: var(--ink); }
-}
-@utility btn-outline-dark {
-  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
-  padding: 0.95rem 2rem;
-  font-size: 0.72rem; letter-spacing: 0.3em; text-transform: uppercase; font-weight: 500;
-  border: 1px solid var(--foreground);
-  color: var(--foreground);
-  transition: all 0.4s ease;
-  &:hover { background: var(--foreground); color: var(--background); }
-}
-@utility img-zoom {
-  overflow: hidden;
-  & img { transition: transform 1.4s cubic-bezier(.2,.7,.2,1); }
-  &:hover img { transform: scale(1.06); }
+  font-weight: 600;
+  color: var(--royal);
 }
 
-@keyframes rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
-@keyframes slowzoom { from { transform: scale(1.12); } to { transform: scale(1); } }
-@utility animate-rise { animation: rise 1.2s cubic-bezier(.2,.7,.2,1) both; }
-@utility animate-slowzoom { animation: slowzoom 9s ease-out both; }
-@keyframes veilin { from { opacity: 0; } to { opacity: 1; } }
-@utility animate-rise-late { animation: veilin 1.8s ease-in-out 0.6s both; }
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: 0.01ms !important; animation-delay: 0ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+@utility veil {
+  background: var(--veil);
+}
+@utility veil-top {
+  background: var(--veil-top);
+}
+
+/* Pill buttons */
+@utility btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  padding: 0.8rem 1.6rem;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  white-space: nowrap;
+  transition:
+    background-color 0.35s ease,
+    color 0.35s ease,
+    border-color 0.35s ease,
+    transform 0.35s ease;
+  &:focus-visible {
+    outline: 2px solid var(--royal-soft);
+    outline-offset: 3px;
+  }
+}
+@utility btn-royal {
+  background: var(--royal);
+  color: #fff;
+  border: 1px solid var(--royal);
+  &:hover {
+    background: var(--royal-deep);
+    border-color: var(--royal-deep);
+  }
+}
+@utility btn-ghost {
+  border: 1px solid color-mix(in oklab, var(--foreground) 55%, transparent);
+  color: var(--foreground);
+  &:hover {
+    background: var(--foreground);
+    color: var(--background);
+    border-color: var(--foreground);
+  }
+}
+@utility btn-light {
+  border: 1px solid rgb(255 255 255 / 0.7);
+  color: #fff;
+  &:hover {
+    background: #fff;
+    color: var(--ink);
+  }
+}
+@utility btn-white {
+  background: #fff;
+  color: var(--royal-deep);
+  border: 1px solid #fff;
+  &:hover {
+    background: var(--mist);
+    border-color: var(--mist);
+  }
+}
+
+/* Thin text link with underline */
+@utility link-line {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--royal);
+  border-bottom: 1px solid color-mix(in oklab, var(--royal) 35%, transparent);
+  padding-bottom: 0.2rem;
+  transition: border-color 0.3s ease;
+  &:hover {
+    border-color: var(--royal);
+  }
+}
+
+@utility img-zoom {
+  overflow: hidden;
+  & img {
+    transition: transform 1.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  &:hover img {
+    transform: scale(1.05);
+  }
 }
 
 @utility num {
-  font-family: var(--font-sans);
   font-variant-numeric: lining-nums tabular-nums;
-  font-feature-settings: "lnum" 1, "tnum" 1;
-  letter-spacing: 0.04em;
-  font-weight: 300;
+  font-feature-settings:
+    "lnum" 1,
+    "tnum" 1;
 }
+
 @utility lux-input {
   width: 100%;
   background: transparent;
   border: 0;
-  border-bottom: 1px solid var(--border);
-  padding: 0.6rem 0;
-  font-size: 1rem;
+  border-bottom: 1px solid var(--input);
+  padding: 0.55rem 0;
+  font-size: 0.98rem;
   color: var(--foreground);
   outline: none;
-  transition: border-color .3s;
-  &:focus { border-bottom-color: var(--gold); }
+  transition: border-color 0.3s;
+  &:focus {
+    border-bottom-color: var(--royal);
+  }
 }
-@utility grain {
-  position: relative;
-  &::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .07; mix-blend-mode: overlay;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence baseFrequency='0.9'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
+
+/* Horizontal rails that line up with the 72rem content column but bleed to the edge */
+:root {
+  --gutter: max(1.5rem, calc((100vw - 72rem) / 2 + 1.5rem));
 }
-@layer base { h1, h2, h3, h4 { font-variant-numeric: lining-nums; } }
+@utility rail {
+  padding-inline: var(--gutter);
+  scroll-padding-inline: var(--gutter);
+}
+@utility gutter-l {
+  padding-left: var(--gutter);
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes kenburns {
+  from {
+    transform: scale(1.12);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+@keyframes progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+@utility animate-rise {
+  animation: rise 1.1s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+@utility animate-kenburns {
+  animation: kenburns 9s ease-out both;
+}
+@utility animate-progress {
+  animation: progress linear both;
+  transform-origin: left;
+}
+
+/* Scroll reveal: only hidden once JS has marked the document ready */
+html.reveal-ready [data-reveal] {
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 1s cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 1s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+html.reveal-ready [data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  html.reveal-ready [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+}

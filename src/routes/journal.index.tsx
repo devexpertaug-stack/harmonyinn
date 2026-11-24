@@ -21,24 +21,33 @@ function Journal() {
   const [lead, ...rest] = posts;
   return (
     <>
-      <PageHero eyebrow="The Journal" title="Notes from Garh Road" image={img.chandelier} />
-      <section className="mx-auto max-w-7xl px-6 py-24">
-        <Link to="/journal/$slug" params={{ slug: lead!.slug }} className="group grid grid-cols-12 gap-6 border-b pb-20">
-          <div className="img-zoom col-span-12 aspect-[16/10] md:col-span-8"><img src={postImage(lead!)} alt="" className="h-full w-full object-cover" /></div>
-          <div className="col-span-12 self-end md:col-span-4">
+      <PageHero eyebrow="Diaries & Discoveries" title="Notes from Garh Road" image={img.reception} />
+      <section className="mx-auto max-w-6xl px-6 py-24">
+        <Link
+          to="/journal/$slug"
+          params={{ slug: lead!.slug }}
+          className="group grid items-end gap-10 border-b border-border pb-20 md:grid-cols-[1.6fr_1fr]"
+          data-reveal
+        >
+          <div className="img-zoom aspect-[16/10]">
+            <img src={postImage(lead!)} alt="" className="h-full w-full object-cover" />
+          </div>
+          <div>
             <div className="eyebrow">{lead!.category}</div>
-            <h2 className="mt-4 text-4xl leading-tight transition group-hover:text-gold md:text-5xl">{lead!.title}</h2>
-            <p className="mt-5 text-muted-foreground">{lead!.excerpt}</p>
-            <span className="mt-6 inline-block border-b border-gold pb-1 text-[0.65rem] uppercase tracking-[0.3em] text-gold">Read the story</span>
+            <h2 className="mt-3 text-4xl leading-tight text-ink transition group-hover:text-royal">{lead!.title}</h2>
+            <p className="mt-5 text-ink/70">{lead!.excerpt}</p>
+            <span className="btn btn-royal mt-8">Read the Story</span>
           </div>
         </Link>
-        <div className="mt-20 grid gap-x-10 gap-y-20 md:grid-cols-2">
-          {rest.map((p, i) => (
-            <Link key={p.slug} to="/journal/$slug" params={{ slug: p.slug }} className={`group block ${i % 2 ? "md:mt-24" : ""}`}>
-              <div className="img-zoom aspect-[4/3]"><img src={postImage(p)} alt="" loading="lazy" className="h-full w-full object-cover" /></div>
+        <div className="mt-20 grid gap-x-10 gap-y-16 md:grid-cols-2">
+          {rest.map((p) => (
+            <Link key={p.slug} to="/journal/$slug" params={{ slug: p.slug }} className="group block" data-reveal>
+              <div className="img-zoom aspect-[4/3]">
+                <img src={postImage(p)} alt="" loading="lazy" className="h-full w-full object-cover" />
+              </div>
               <div className="eyebrow mt-6">{p.category}</div>
-              <h3 className="mt-3 text-3xl leading-tight transition group-hover:text-gold">{p.title}</h3>
-              <p className="mt-3 text-sm text-muted-foreground">{p.excerpt}</p>
+              <h3 className="mt-2 text-3xl leading-tight text-ink transition group-hover:text-royal">{p.title}</h3>
+              <p className="mt-3 text-[0.9rem] text-ink/65">{p.excerpt}</p>
             </Link>
           ))}
         </div>
