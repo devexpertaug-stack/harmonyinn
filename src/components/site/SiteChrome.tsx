@@ -7,7 +7,7 @@ const nav = [
   { to: "/rooms", label: "Stay" },
   { to: "/dining", label: "Dine" },
   { to: "/banquets", label: "Celebrate" },
-  { to: "/journal", label: "Journal" },
+  { to: "/journal", label: "Blog" },
 ] as const;
 
 const menu = [
@@ -15,7 +15,7 @@ const menu = [
   { to: "/rooms", label: "Rooms & Suites" },
   { to: "/dining", label: "Dining & Bar" },
   { to: "/banquets", label: "Banquets & Events" },
-  { to: "/journal", label: "Journal" },
+  { to: "/journal", label: "Blog" },
   { to: "/contact", label: "Contact" },
 ] as const;
 
@@ -47,7 +47,7 @@ export function EmblemDivider({ className = "" }: { className?: string }) {
 
 function Logo({ light }: { light: boolean }) {
   return (
-    <span className={`flex flex-col items-center leading-none ${light ? "text-white" : "text-ink"}`}>
+    <span className={`flex flex-col items-center leading-none ${light ? "text-ink-foreground" : "text-ink"}`}>
       {/* pl equal to the tracking cancels the trailing letter-space so the word sits truly centred */}
       <span className="whitespace-nowrap pl-[0.3em] font-display text-[0.8rem] tracking-[0.3em] min-[380px]:text-[0.88rem] sm:pl-[0.34em] sm:text-lg sm:tracking-[0.34em]">
         HARMONY INN
@@ -88,12 +88,12 @@ export function Header() {
     <>
       <header
         className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
-          solid ? "bg-white/95 py-2.5 shadow-[0_1px_0_rgb(0_0_0/0.06)] backdrop-blur" : "veil-top py-4"
+          solid ? "bg-card/95 py-2.5 shadow-[0_1px_0_rgb(0_0_0/0.06)] backdrop-blur" : "veil-top py-4"
         }`}
       >
         {/* minmax(0,1fr) keeps both side columns equal, so the logo is always dead centre */}
         <div className="mx-auto grid max-w-[1400px] grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-3 px-4 sm:gap-4 sm:px-8">
-          <div className={`flex items-center gap-7 ${light ? "text-white" : "text-ink"}`}>
+          <div className={`flex items-center gap-7 ${light ? "text-ink-foreground" : "text-ink"}`}>
             <button
               aria-label="Open menu"
               onClick={() => setOpen(true)}
@@ -108,8 +108,8 @@ export function Header() {
                 <Link
                   key={n.to}
                   to={n.to}
-                  className="text-[0.85rem] font-medium opacity-90 transition hover:opacity-100"
-                  activeProps={{ className: "underline decoration-1 underline-offset-8" }}
+                  className="text-[0.7rem] uppercase tracking-[0.28em] opacity-85 transition hover:text-gold hover:opacity-100"
+                  activeProps={{ className: "!text-gold !opacity-100" }}
                 >
                   {n.label}
                 </Link>
@@ -122,13 +122,13 @@ export function Header() {
           <div className="flex items-center justify-end gap-5">
             <a
               href={contact.phoneHref}
-              className={`num hidden text-[0.8rem] font-medium xl:inline ${light ? "text-white/90" : "text-ink/80"}`}
+              className={`num hidden text-[0.8rem] font-medium xl:inline ${light ? "text-ink-foreground/90" : "text-ink/80"}`}
             >
               {contact.phones[0]}
             </a>
             <button
               onClick={() => openBooking("room")}
-              className="btn btn-royal !px-3.5 !py-2.5 text-[0.72rem] sm:!px-5 sm:text-[0.78rem]"
+              className="btn btn-gold rounded-full !px-3.5 !py-2.5 !text-[0.6rem] !tracking-[0.18em] sm:!px-5 sm:!py-3 sm:!text-[0.72rem] sm:!tracking-[0.3em]"
             >
               Book Now
             </button>
@@ -138,7 +138,7 @@ export function Header() {
 
       {/* Full-screen menu */}
       <div
-        className={`fixed inset-0 z-[60] bg-ink text-white transition-opacity duration-500 ${
+        className={`fixed inset-0 z-[60] bg-ink text-ink-foreground transition-opacity duration-500 ${
           open ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
         aria-hidden={!open}
@@ -164,24 +164,24 @@ export function Header() {
                   key={m.to}
                   to={m.to}
                   onClick={() => setOpen(false)}
-                  className="font-display text-4xl leading-tight text-white/85 transition hover:translate-x-2 hover:text-white sm:text-6xl"
+                  className="font-display text-4xl leading-tight text-ink-foreground/85 transition hover:translate-x-2 hover:text-ink-foreground sm:text-6xl"
                   style={{ transitionDelay: open ? `${i * 40}ms` : "0ms" }}
                 >
                   {m.label}
                 </Link>
               ))}
             </nav>
-            <div className="space-y-8 self-end text-sm text-white/70 md:self-center">
+            <div className="space-y-8 self-end text-sm text-ink-foreground/70 md:self-center">
               <div>
-                <div className="eyebrow !text-powder">Visit</div>
+                <div className="eyebrow !text-gold">Visit</div>
                 <p className="mt-3">{contact.address}</p>
               </div>
               <div>
-                <div className="eyebrow !text-powder">Reservations</div>
-                <a href={contact.phoneHref} className="num mt-3 block text-2xl text-white">
+                <div className="eyebrow !text-gold">Reservations</div>
+                <a href={contact.phoneHref} className="num mt-3 block text-2xl text-ink-foreground">
                   {contact.phones[0]}
                 </a>
-                <a href={`mailto:${contact.email}`} className="mt-1 block hover:text-white">
+                <a href={`mailto:${contact.email}`} className="mt-1 block hover:text-ink-foreground">
                   {contact.email}
                 </a>
               </div>
@@ -204,17 +204,17 @@ export function Header() {
 
 export function Footer() {
   const { openBooking } = useBooking();
-  const col = "text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-powder";
-  const item = "block py-0.5 text-[0.86rem] text-white/80 transition hover:text-white";
+  const col = "eyebrow";
+  const item = "block py-0.5 text-[0.86rem] text-ink-foreground/80 transition hover:text-ink-foreground";
   return (
-    <footer className="bg-ink text-white">
+    <footer className="bg-ink text-ink-foreground">
       <div className="mx-auto max-w-7xl px-6 pt-20">
-        <EmblemDivider className="text-powder" />
-        <p className="mt-6 text-center font-display text-lg text-white/75">
+        <EmblemDivider className="text-gold" />
+        <p className="mt-6 text-center font-display text-lg text-ink-foreground/75">
           Royal hospitality on Main Garh Road, in the heart of Meerut
         </p>
         <div className="mt-16 grid gap-12 md:grid-cols-[1fr_2.6fr_1.1fr]">
-          <div className="md:border-r md:border-white/10 md:pr-8">
+          <div className="md:border-r md:border-ink-foreground/10 md:pr-8">
             <div className={col}>Discover Harmony</div>
             <div className="mt-6 flex flex-col gap-1">
               {(
@@ -222,10 +222,10 @@ export function Footer() {
                 ["/rooms", "Stay"],
                 ["/dining", "Dine"],
                 ["/banquets", "Celebrate"],
-                ["/journal", "Read"],
+                ["/journal", "Blog"],
                 ] as const
               ).map(([to, l]) => (
-                <Link key={to} to={to} className="font-display text-4xl leading-snug hover:text-powder">
+                <Link key={to} to={to} className="font-display text-4xl leading-snug hover:text-gold">
                   {l}
                 </Link>
               ))}
@@ -243,9 +243,8 @@ export function Footer() {
               </div>
               <div className={`${col} mt-8`}>Dine</div>
               <div className="mt-4">
-                <Link to="/dining" className={item}>Melting Pot</Link>
-                <Link to="/dining" className={item}>Barrel</Link>
-                <Link to="/dining" className={item}>Private dining</Link>
+                <Link to="/dining" className={item}>Melting Pot Restaurant</Link>
+                <Link to="/dining" className={item}>Weekly music nights</Link>
               </div>
             </div>
             <div>
@@ -253,7 +252,7 @@ export function Footer() {
               <div className="mt-4">
                 {venues.map((v) => (
                   <Link key={v.name} to="/banquets" className={item}>
-                    {v.name}
+                    {v.name === "Royal Casa" ? v.name : `${v.name.replace(/ Banquet$/, "")} Party Hall`}
                   </Link>
                 ))}
                 <Link to="/banquets" className={item}>Conference room</Link>
@@ -262,7 +261,7 @@ export function Footer() {
             <div>
               <div className={col}>Resources</div>
               <div className="mt-4">
-                <Link to="/journal" className={item}>Journal</Link>
+                <Link to="/journal" className={item}>Blog</Link>
                 <Link to="/contact" className={item}>Contact & directions</Link>
                 <button onClick={() => openBooking("event")} className={`${item} text-left`}>
                   Event enquiry
@@ -270,19 +269,19 @@ export function Footer() {
               </div>
             </div>
           </div>
-          <div className="md:border-l md:border-white/10 md:pl-8">
+          <div className="md:border-l md:border-ink-foreground/10 md:pl-8">
             <div className={col}>Find us</div>
-            <p className="mt-4 text-[0.86rem] leading-relaxed text-white/80">
+            <p className="mt-4 text-[0.86rem] leading-relaxed text-ink-foreground/80">
               Opp. Nai Sadak, Main Garh Road
               <br />
               Meerut (U.P) <span className="num">250002</span>
             </p>
-            <div className="mt-5 space-y-1 text-[0.86rem] text-white/80">
-              <a href={`mailto:${contact.email}`} className="block hover:text-white">
+            <div className="mt-5 space-y-1 text-[0.86rem] text-ink-foreground/80">
+              <a href={`mailto:${contact.email}`} className="block hover:text-ink-foreground">
                 {contact.email}
               </a>
               {contact.phones.map((p) => (
-                <a key={p} href={`tel:${p.replace(/[^+\d]/g, "")}`} className="num block hover:text-white">
+                <a key={p} href={`tel:${p.replace(/[^+\d]/g, "")}`} className="num block hover:text-ink-foreground">
                   t: {p}
                 </a>
               ))}
@@ -293,11 +292,11 @@ export function Footer() {
           </div>
         </div>
       </div>
-      <div className="mx-auto mt-16 flex max-w-7xl flex-wrap items-center justify-between gap-4 border-t border-white/10 px-6 py-7 text-xs text-white/60">
+      <div className="mx-auto mt-16 flex max-w-7xl flex-wrap items-center justify-between gap-4 border-t border-ink-foreground/10 px-6 py-7 text-xs text-ink-foreground/60">
         <div className="flex flex-wrap items-center gap-5">
           <span>★★★★ Grand luxury</span>
           {contact.social.map(([n, u]) => (
-            <a key={n} href={u} target="_blank" rel="noreferrer" className="text-white/80 hover:text-white">
+            <a key={n} href={u} target="_blank" rel="noreferrer" className="text-ink-foreground/80 hover:text-ink-foreground">
               {n}
             </a>
           ))}
@@ -312,7 +311,7 @@ export function Footer() {
         target="_blank"
         rel="noreferrer"
         aria-label="Chat with Hotel Harmony Inn on WhatsApp"
-        className="fixed bottom-5 right-5 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-royal text-white shadow-[0_10px_30px_-8px_rgb(24_43_107/0.6)] transition duration-500 hover:bg-royal-deep"
+        className="fixed bottom-5 right-5 z-40 flex h-12 w-12 items-center justify-center rounded-full border border-gold/70 bg-ink text-gold shadow-[0_8px_24px_-8px_var(--ink)] transition duration-500 hover:bg-gold hover:text-ink"
       >
         <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor" aria-hidden="true">
           <path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.47-.88-.79-1.47-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.5h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.21 3.08c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.7.63.71.22 1.36.19 1.87.12.57-.09 1.75-.72 2-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35M12.05 21.5h-.01a9.4 9.4 0 0 1-4.8-1.31l-.34-.2-3.57.93.95-3.48-.22-.36a9.43 9.43 0 0 1-1.45-5.03c0-5.2 4.24-9.44 9.45-9.44a9.4 9.4 0 0 1 9.44 9.45c0 5.2-4.24 9.44-9.45 9.44M20.08 3.9A11.3 11.3 0 0 0 12.05.58C5.79.58.7 5.67.7 11.93c0 2 .52 3.95 1.52 5.67L.6 23.5l6.03-1.58a11.33 11.33 0 0 0 5.42 1.38h.01c6.25 0 11.35-5.09 11.35-11.35 0-3.03-1.18-5.88-3.33-8.03" />
@@ -389,7 +388,7 @@ export function PageHero({
   children?: ReactNode;
 }) {
   return (
-    <section className="relative flex h-[82svh] min-h-[540px] items-center justify-center overflow-hidden bg-ink text-white">
+    <section className="relative flex h-[82svh] min-h-[540px] items-center justify-center overflow-hidden bg-ink text-ink-foreground">
       <div className="absolute inset-0">
         {video ? (
           <BgVideo src={video} poster={image} />
@@ -399,7 +398,7 @@ export function PageHero({
       </div>
       <div className="veil absolute inset-0" />
       <div className="animate-rise relative mx-auto max-w-4xl px-6 pt-16 text-center">
-        <div className="text-[0.7rem] font-semibold uppercase tracking-[0.3em] text-white/85">{eyebrow}</div>
+        <div className="text-[0.7rem] font-semibold uppercase tracking-[0.3em] text-ink-foreground/85">{eyebrow}</div>
         <h1 className="mt-5 text-5xl leading-[1.05] sm:text-6xl md:text-7xl">{title}</h1>
         {children}
       </div>

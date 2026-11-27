@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useBooking } from "@/components/site/Booking";
 import { PageHero, EmblemDivider } from "@/components/site/SiteChrome";
-import { img, rooms, silentFeatures, policies, extraBed, inr, roomSlug } from "@/lib/hotel";
+import { img, rooms, policies, extraBed, inr, roomSlug } from "@/lib/hotel";
+import { Amenities } from "@/components/site/Amenities";
 
 export const Route = createFileRoute("/rooms")({
   head: () => ({
@@ -26,7 +27,7 @@ function Rooms() {
   return (
     <>
       <PageHero eyebrow="Stay · Four categories" title="Rooms & Suites" image={img.suite}>
-        <p className="mx-auto mt-5 max-w-lg text-white/85">
+        <p className="mx-auto mt-5 max-w-lg text-ink-foreground/85">
           Every rate includes buffet breakfast, mineral water and free valet parking.
         </p>
       </PageHero>
@@ -50,13 +51,13 @@ function Rooms() {
         </dl>
       </section>
 
-      <nav className="sticky top-[68px] z-30 border-y border-border bg-white/95 backdrop-blur">
+      <nav className="sticky top-[68px] z-30 border-y border-border bg-card/95 backdrop-blur">
         <div className="no-scrollbar mx-auto flex max-w-6xl justify-start gap-8 overflow-x-auto px-6 py-3.5 md:justify-center">
           {rooms.map((r) => (
             <a
               key={r.name}
               href={`#${roomSlug(r.name)}`}
-              className="flex shrink-0 items-baseline gap-2 text-[0.8rem] font-medium text-ink/80 hover:text-royal"
+              className="flex shrink-0 items-baseline gap-2 text-[0.8rem] font-medium text-ink/80 hover:text-gold"
             >
               {r.name}
               <span className="num text-xs text-ink/50">{inr(r.price)}</span>
@@ -93,7 +94,7 @@ function Rooms() {
                   <ul className="mt-6 grid grid-cols-2 gap-x-4 gap-y-2 text-[0.86rem] text-ink/80">
                     {r.amenities.map((a) => (
                       <li key={a} className="flex items-center gap-2">
-                        <span className="text-[0.55rem] text-royal-soft">❖</span>
+                        <span className="text-[0.55rem] text-gold">❖</span>
                         {a}
                       </li>
                     ))}
@@ -103,7 +104,7 @@ function Rooms() {
                     <span className="text-sm text-ink/60">+ GST, per night</span>
                   </div>
                   <div className="mt-6 flex flex-wrap gap-3">
-                    <button onClick={() => openBooking("room", r.name)} className="btn btn-royal">
+                    <button onClick={() => openBooking("room", r.name)} className="btn btn-gold">
                       Book Your Stay
                     </button>
                     <Link to="/rooms/$slug" params={{ slug: roomSlug(r.name) }} className="btn btn-ghost">
@@ -117,25 +118,13 @@ function Rooms() {
         </div>
       </section>
 
-      <div className="mx-auto max-w-[1400px] px-5 text-royal-soft">
+      <div className="mx-auto max-w-[1400px] px-5 text-gold">
         <EmblemDivider />
       </div>
 
-      <section className="mt-20 bg-mist">
-        <div className="mx-auto grid max-w-6xl gap-10 px-6 py-20 md:grid-cols-[1fr_1.6fr]">
-          <div data-reveal>
-            <div className="eyebrow">With every stay</div>
-            <h2 className="mt-3 text-4xl text-ink">Included, without asking.</h2>
-          </div>
-          <ul className="grid gap-x-10 sm:grid-cols-2" data-reveal>
-            {silentFeatures.map((f) => (
-              <li key={f} className="border-b border-ink/10 py-4 font-display text-lg text-ink">
-                {f}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
+      <div className="mt-20">
+        <Amenities />
+      </div>
 
       <section className="mx-auto grid max-w-6xl gap-10 px-6 py-20 md:grid-cols-[1fr_1.6fr]">
         <div data-reveal>

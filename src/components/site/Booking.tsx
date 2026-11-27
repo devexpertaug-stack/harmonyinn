@@ -101,27 +101,25 @@ export function BookingProvider({ children }: { children: ReactNode }) {
         <SheetContent
           side="right"
           className="w-full overflow-y-auto border-l-0 bg-ivory p-0 sm:max-w-lg"
-          closeClassName="right-3 top-3 z-10 flex h-11 w-11 items-center justify-center rounded-full border border-white/40 text-white opacity-100 hover:bg-white/15 focus:ring-white focus:ring-offset-0 data-[state=open]:bg-white/10"
+          closeClassName="right-3 top-3 z-10 flex h-11 w-11 items-center justify-center rounded-full border border-ink-foreground/40 text-ink-foreground opacity-100 hover:bg-card/15 focus:ring-ink-foreground focus:ring-offset-0 data-[state=open]:bg-card/10"
           closeIconClassName="h-6 w-6"
         >
           <div className="bg-ink px-8 pb-8 pt-12 text-ink-foreground">
-            <div className="text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-powder">
-              Hotel Harmony Inn
-            </div>
-            <SheetTitle className="mt-3 font-display text-4xl font-normal text-white">
+            <div className="eyebrow">Hotel Harmony Inn</div>
+            <SheetTitle className="mt-3 font-display text-4xl font-normal text-ink-foreground">
               {kind === "room" ? "Reserve your stay" : "Plan your occasion"}
             </SheetTitle>
-            <SheetDescription className="mt-2 text-sm text-white/70">
+            <SheetDescription className="mt-2 text-sm text-ink-foreground/70">
               Best rates when you book direct, with breakfast and valet parking included.
             </SheetDescription>
-            <div className="mt-6 grid grid-cols-2 gap-1 rounded-full bg-white/10 p-1">
+            <div className="mt-6 grid grid-cols-2 border border-ink-foreground/20">
               {(["room", "event"] as const).map((k) => (
                 <button
                   key={k}
                   type="button"
                   onClick={() => openBooking(k)}
-                  className={`rounded-full py-2.5 text-xs font-semibold tracking-wide transition ${
-                    kind === k ? "bg-white text-royal-deep" : "text-white/75 hover:text-white"
+                  className={`py-3 text-[0.65rem] uppercase tracking-[0.3em] transition ${
+                    kind === k ? "bg-gold text-accent-foreground" : "text-ink-foreground/70 hover:text-ink-foreground"
                   }`}
                 >
                   {k === "room" ? "Rooms" : "Events"}
@@ -132,7 +130,7 @@ export function BookingProvider({ children }: { children: ReactNode }) {
 
           {status === "done" ? (
             <div className="px-8 py-16 text-center">
-              <div className="mx-auto grid h-16 w-16 place-items-center rounded-full border border-royal font-display text-3xl text-royal">
+              <div className="mx-auto grid h-16 w-16 place-items-center rounded-full border border-gold font-display text-3xl text-gold">
                 ✓
               </div>
               <h3 className="mt-6 text-4xl">Thank you.</h3>
@@ -142,7 +140,7 @@ export function BookingProvider({ children }: { children: ReactNode }) {
               </p>
               <p className="mt-8 text-sm text-muted-foreground">
                 Need us sooner?{" "}
-                <a href={contact.phoneHref} className="num font-semibold text-royal">
+                <a href={contact.phoneHref} className="num font-semibold text-gold">
                   {contact.phones[0]}
                 </a>
               </p>
@@ -233,12 +231,12 @@ export function BookingProvider({ children }: { children: ReactNode }) {
               </Field>
 
               {kind === "room" && room && (
-                <div className="flex items-end justify-between rounded-2xl bg-mist px-5 py-4">
+                <div className="flex items-end justify-between rounded-2xl bg-sand px-5 py-4">
                   <div className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                     <span className="num">{nights}</span> night{nights > 1 ? "s" : ""} · est.
                   </div>
                   <div className="text-right">
-                    <span className="num font-display text-3xl text-royal-deep">
+                    <span className="num font-display text-3xl text-gold-deep">
                       {inr(room.price * nights)}
                     </span>
                     <div className="text-xs text-muted-foreground">+ GST · breakfast included</div>
@@ -246,7 +244,7 @@ export function BookingProvider({ children }: { children: ReactNode }) {
                 </div>
               )}
               {error && <p className="text-sm text-destructive">{error}</p>}
-              <button disabled={status === "sending"} className="btn btn-royal w-full !py-4 disabled:opacity-60">
+              <button disabled={status === "sending"} className="btn btn-gold w-full !py-4 disabled:opacity-60">
                 {status === "sending" ? "Sending…" : kind === "room" ? "Request reservation" : "Send enquiry"}
               </button>
               <p className="text-center text-xs text-muted-foreground">
@@ -263,7 +261,7 @@ export function BookingProvider({ children }: { children: ReactNode }) {
 function Field({ label, children }: { label: string; children: ReactNode }) {
   return (
     <label className="block">
-      <span className="mb-1.5 block text-[0.66rem] font-semibold uppercase tracking-[0.22em] text-royal">
+      <span className="mb-1.5 block text-[0.66rem] font-semibold uppercase tracking-[0.22em] text-gold">
         {label}
       </span>
       {children}

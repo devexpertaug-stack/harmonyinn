@@ -32,7 +32,7 @@ function Banquets() {
         image={videos.celebrations.poster}
         video={videos.celebrations.src}
       >
-        <button onClick={() => openBooking("event")} className="btn btn-royal mt-8">
+        <button onClick={() => openBooking("event")} className="btn btn-gold mt-8">
           Plan Your Event
         </button>
       </PageHero>
@@ -42,8 +42,8 @@ function Banquets() {
           <div className="eyebrow">{lead!.capacity}</div>
           <h2 className="mt-3 text-5xl text-ink md:text-6xl">{lead!.name}</h2>
           <p className="mt-6 leading-relaxed text-ink/75">{lead!.text}</p>
-          <p className="mt-5 text-[0.8rem] font-medium text-royal">{lead!.for.join(" · ")}</p>
-          <button onClick={() => openBooking("event", lead!.name)} className="btn btn-royal mt-8">
+          <p className="mt-5 text-[0.8rem] font-medium text-gold">{lead!.for.join(" · ")}</p>
+          <button onClick={() => openBooking("event", lead!.name)} className="btn btn-gold mt-8">
             Enquire for Royal Casa
           </button>
         </div>
@@ -60,7 +60,7 @@ function Banquets() {
         </div>
       </section>
 
-      <section className="bg-mist py-6">
+      <section className="bg-sand py-6">
         {rest.map((v, i) => (
           <article
             key={v.name}
@@ -74,7 +74,7 @@ function Banquets() {
               <div className="eyebrow num">{v.capacity}</div>
               <h3 className="mt-3 text-4xl text-ink sm:text-5xl">{v.name}</h3>
               <p className="mt-5 leading-relaxed text-ink/75">{v.text}</p>
-              <p className="mt-5 text-[0.8rem] font-medium text-royal">{v.for.join(" · ")}</p>
+              <p className="mt-5 text-[0.8rem] font-medium text-gold">{v.for.join(" · ")}</p>
               <button onClick={() => openBooking("event", v.name)} className="btn btn-ghost mt-8">
                 Enquire
               </button>
@@ -94,21 +94,21 @@ function Banquets() {
             For board meetings, training days and product launches, with catering from Melting Pot
             and rooms upstairs for out-of-town delegates.
           </p>
-          <button onClick={() => openBooking("event")} className="btn btn-royal mt-8">
+          <button onClick={() => openBooking("event")} className="btn btn-gold mt-8">
             Plan a Meeting
           </button>
         </div>
       </section>
 
-      <section className="bg-ink text-white">
+      <section className="bg-ink text-ink-foreground">
         <div className="mx-auto grid max-w-6xl items-end gap-10 px-6 py-24 md:grid-cols-2">
           <h2 className="text-4xl leading-[1.15] sm:text-5xl">
             Tell us the date.
             <br />
-            <em className="accent text-powder">We'll handle the rest.</em>
+            <em className="accent text-gold">We'll handle the rest.</em>
           </h2>
           <div>
-            <p className="text-white/80">
+            <p className="text-ink-foreground/80">
               Share your date, guest count and preferred hall. Our events team will reply with menus
               and availability.
             </p>

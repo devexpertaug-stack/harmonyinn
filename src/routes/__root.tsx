@@ -19,7 +19,7 @@ function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
-        <h1 className="font-display text-8xl text-royal">404</h1>
+        <h1 className="font-display text-8xl text-gold">404</h1>
         <h2 className="mt-4 text-3xl text-ink">Page not found</h2>
         <p className="mt-2 text-sm text-muted-foreground">
           The page you're looking for doesn't exist or has been moved.
@@ -27,7 +27,7 @@ function NotFoundComponent() {
         <div className="mt-6">
           <Link
             to="/"
-            className="btn btn-royal"
+            className="btn btn-gold"
           >
             Go home
           </Link>
@@ -59,7 +59,7 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
               router.invalidate();
               reset();
             }}
-            className="btn btn-royal"
+            className="btn btn-gold"
           >
             Try again
           </button>
@@ -81,7 +81,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Hotel Harmony Inn — Meerut" },
-      { name: "theme-color", content: "#0f1a3a" },
+      { name: "theme-color", content: "#17120d" },
       { name: "description", content: "Four-star grand luxury hotel on Main Garh Road, Meerut." },
       { property: "og:site_name", content: "Hotel Harmony Inn" },
       { property: "og:type", content: "website" },
@@ -94,7 +94,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400;1,500&family=Manrope:wght@400;500;600;700&family=Marcellus&display=swap" },
+      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
   }),

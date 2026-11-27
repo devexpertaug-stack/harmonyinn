@@ -144,16 +144,20 @@ export const rooms = [
   },
 ];
 
-export const silentFeatures = [
-  "Centrally air-conditioned",
-  "Complimentary buffet breakfast",
-  "Complimentary mineral water",
-  "Daily newspaper",
-  "Jacuzzi baths in suites",
-  "Conference & party hall",
-  "CCTV security",
-  "24-hour power back-up",
-  "Free valet parking",
+/** Hotel-wide amenities shown on the room pages, grouped by theme. */
+export const amenityGroups = [
+  {
+    title: "Comfort",
+    items: ["Centrally air-conditioned rooms", "Jacuzzi baths in suites", "Daily housekeeping", "Complimentary Wi-Fi"],
+  },
+  {
+    title: "Dining & refreshments",
+    items: ["Complimentary buffet breakfast", "Complimentary mineral water", "Daily newspaper"],
+  },
+  {
+    title: "Safety & convenience",
+    items: ["Free valet parking", "24-hour power back-up", "CCTV security", "24-hour front desk", "Conference & party halls"],
+  },
 ];
 
 export const policies = [
@@ -200,17 +204,11 @@ export const venues = [
   },
 ];
 
-export const pdas = [
-  { name: "Orchid Lounge", capacity: "30 – 35 guests", image: orchid },
-  { name: "Dining Hall", capacity: "20 – 25 guests", image: privatedining },
-  { name: "Tulip Lounge", capacity: "12 – 15 guests", image: tulip },
-] as const;
-
 export const weekly = [
-  { day: "Tuesday", name: "Ghazal Nights", where: "Melting Pot", image: dining3, text: "Candlelit dinner with live ghazals, for a slower kind of evening." },
-  { day: "Thursday", name: "Retro Nights", where: "Melting Pot", image: dining2, text: "Live singer Pawan Chugh performs golden-era Bollywood." },
-  { day: "Saturday", name: "Bollywood Nights", where: "Barrel", image: bar, text: "Live DJ, the newest tracks and the classics. Ladies receive a complimentary drink." },
-  { day: "Sunday", name: "Ladies Night", where: "Barrel", image: bar2, text: "Special cocktails, discounted drinks and the resident DJ." },
+  { day: "Tuesday", name: "Ladies Night", where: "Melting Pot", image: dining3, text: "An evening for the ladies, every Tuesday at the Melting Pot restaurant." },
+  { day: "Tuesday", name: "Ghazal Night", where: "Melting Pot", image: privatedining, text: "A candlelight dinner with live ghazals at the Melting Pot restaurant." },
+  { day: "Thursday", name: "Retro Night", where: "Melting Pot", image: dining2, text: "Golden-era Bollywood, every Thursday at the Melting Pot restaurant." },
+  { day: "Saturday", name: "Bollywood Night", where: "Melting Pot", image: meltingpot, text: "Bollywood hits and favourites, every Saturday at the Melting Pot restaurant." },
 ];
 
 export const seasonal = ["New Year", "Baisakhi", "Halloween", "Christmas"];
@@ -229,7 +227,7 @@ export const faqs = [
   { q: "Is breakfast included?", a: "Yes. Every room rate includes our buffet breakfast, along with complimentary mineral water and a daily newspaper." },
   { q: "Is there parking at the hotel?", a: "Yes, valet parking is free for all guests. The hotel also has round-the-clock power back-up and CCTV security." },
   { q: "What is the cancellation policy?", a: "Cancel at least 24 hours ahead to avoid cancellation or no-show charges, which may include the full tariff and taxes for the stay." },
-  { q: "Can you host weddings and events?", a: "Yes. We have four halls, from Bluebell for 30 guests to Royal Casa on the sixth floor, plus three private dining lounges at Melting Pot and a fully equipped conference room." },
+  { q: "Can you host weddings and events?", a: "Yes. We have four halls, from Bluebell for 30 guests to Royal Casa on the sixth floor, plus a fully equipped conference room." },
 ];
 
 export const inr = (n: number) => "₹" + n.toLocaleString("en-IN");
@@ -248,8 +246,9 @@ export const findRoom = (slug: string) => rooms.find((r) => roomSlug(r.name) ===
  * `poster` shows while the video loads and on devices that block autoplay.
  */
 export const videos = {
+  // Homepage hero plays this video. `poster` is only a placeholder while it loads.
   hero: { src: "/videos/hero.mp4", poster: facade },
-  evenings: { src: "/videos/evenings.mp4", poster: bar },
+  evenings: { src: "/videos/evenings.mp4", poster: dining2 },
   celebrations: { src: "/videos/celebrations.mp4", poster: royalcasa },
 };
 
@@ -268,7 +267,6 @@ export const highlights = [
 export const spaces = [
   { name: "The Lobby", image: lounge, text: "A carved jaali ceiling, marble floors and a carpet in royal blue. Tea is always on offer.", to: "/contact" as const },
   { name: "Melting Pot", image: dining, text: "Indian, Oriental and Continental, cooked to order in our all-day restaurant.", to: "/dining" as const },
-  { name: "Barrel", image: bar, text: "Low light, live DJs at the weekend and an honest pour at the bar.", to: "/dining" as const },
   { name: "Royal Casa", image: royalcasa3, text: "Gold drapes and crystal chandeliers on the sixth floor, built for weddings.", to: "/banquets" as const },
   { name: "Presidential Suite", image: presidential, text: "Our largest suite, with a sitting salon and marble detailing.", to: "/rooms" as const },
   { name: "Conference Room", image: conference, text: "A boardroom for twenty, with catering from Melting Pot.", to: "/banquets" as const },
@@ -277,9 +275,8 @@ export const spaces = [
 /** Standing offers. Kept to what the hotel already provides; edit freely. */
 export const offers = [
   { title: "Book Direct & Save", image: deluxe, text: "Our best available rate, with buffet breakfast, mineral water and free valet parking included.", cta: "Book your stay", kind: "room" as const },
-  { title: "Evenings at Harmony", image: bar2, text: "Ghazals on Tuesday, retro on Thursday and DJ nights at Barrel every weekend.", cta: "See the programme", to: "/dining" as const },
+  { title: "Evenings at Melting Pot", image: dining2, text: "Ladies Night and Ghazal Night on Tuesday, Retro Night on Thursday and Bollywood Night on Saturday.", cta: "See the programme", to: "/dining" as const },
   { title: "Weddings at Royal Casa", image: royalcasa, text: "A sixth-floor hall for up to 500 guests, with menus and décor planned by our events team.", cta: "Plan your event", kind: "event" as const },
-  { title: "Private Dining Lounges", image: orchid, text: "Orchid, Tulip and the Dining Hall, for family dinners of 12 to 35 guests.", cta: "Book a lounge", kind: "event" as const },
 ];
 
-export const gallery = [presidential, dining, reception, royalcasa3, bar, deluxe, facade, lounge, royalcasa2, executive, meltingpot, welcome];
+export const gallery = [presidential, dining, reception, royalcasa3, dining3, deluxe, facade, lounge, royalcasa2, executive, meltingpot, welcome];
