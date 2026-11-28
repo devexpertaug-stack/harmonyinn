@@ -3,21 +3,32 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { contact, rooms, roomSlug, venues } from "@/lib/hotel";
 import { useBooking } from "./Booking";
 
-const nav = [
+type NavItem = {
+  to: "/" | "/rooms" | "/dining" | "/banquets" | "/gallery" | "/journal" | "/contact";
+  hash?: string;
+  label: string;
+};
+
+/** Header links (large screens). */
+const nav: NavItem[] = [
   { to: "/rooms", label: "Stay" },
   { to: "/dining", label: "Dine" },
   { to: "/banquets", label: "Celebrate" },
-  { to: "/journal", label: "Blog" },
-] as const;
+  { to: "/banquets", hash: "conference", label: "Conference" },
+  { to: "/gallery", label: "Gallery" },
+];
 
-const menu = [
+/** Full-screen menu (opened with the menu icon, on every screen size). */
+const menu: NavItem[] = [
   { to: "/", label: "Home" },
   { to: "/rooms", label: "Rooms & Suites" },
-  { to: "/dining", label: "Dining & Bar" },
+  { to: "/dining", label: "Dining" },
   { to: "/banquets", label: "Banquets & Events" },
+  { to: "/banquets", hash: "conference", label: "Conference" },
+  { to: "/gallery", label: "Gallery" },
   { to: "/journal", label: "Blog" },
   { to: "/contact", label: "Contact" },
-] as const;
+];
 
 /** Palace crest: a central dome between two chhatris over an arcade. */
 export function Emblem({ className = "h-7 w-12" }: { className?: string }) {
@@ -52,7 +63,6 @@ function Logo({ light }: { light: boolean }) {
       <span className="whitespace-nowrap pl-[0.3em] font-display text-[0.8rem] tracking-[0.3em] min-[380px]:text-[0.88rem] sm:pl-[0.34em] sm:text-lg sm:tracking-[0.34em]">
         HARMONY INN
       </span>
-      <Emblem className="mt-1.5 h-5 w-10 sm:h-7 sm:w-12" />
     </span>
   );
 }
@@ -60,7 +70,7 @@ function Logo({ light }: { light: boolean }) {
 /** Pages whose first section is a dark full-bleed image, so the header can start transparent. */
 const darkTop = (path: string) =>
   path === "/" ||
-  ["/rooms", "/dining", "/banquets", "/contact", "/journal"].some(
+  ["/rooms", "/dining", "/banquets", "/contact", "/journal", "/gallery"].some(
     (p) => path === p || path.startsWith(p + "/"),
   );
 
@@ -83,9 +93,17 @@ export function Header() {
 
   const solid = scrolled || !darkTop(path);
   const light = !solid;
+  const loading = useRouterState({ select: (s) => s.status === "pending" });
 
   return (
     <>
+      {/* Thin gold bar while a page is opening, so a slow connection never looks like "nothing happened" */}
+      <div
+        aria-hidden="true"
+        className={`pointer-events-none fixed inset-x-0 top-0 z-[70] h-0.5 overflow-hidden transition-opacity duration-300 ${loading ? "opacity-100" : "opacity-0"}`}
+      >
+        <div className="h-full w-1/3 bg-gold [animation:loadbar_1s_ease-in-out_infinite]" />
+      </div>
       <header
         className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
           solid ? "bg-card/95 py-2.5 shadow-[0_1px_0_rgb(0_0_0/0.06)] backdrop-blur" : "veil-top py-4"
@@ -106,8 +124,10 @@ export function Header() {
             <nav className="hidden items-center gap-7 lg:flex">
               {nav.map((n) => (
                 <Link
-                  key={n.to}
+                  key={n.label}
                   to={n.to}
+                  {...(n.hash ? { hash: n.hash } : {})}
+                  activeOptions={{ includeHash: true }}
                   className="text-[0.7rem] uppercase tracking-[0.28em] opacity-85 transition hover:text-gold hover:opacity-100"
                   activeProps={{ className: "!text-gold !opacity-100" }}
                 >
@@ -161,8 +181,9 @@ export function Header() {
             <nav className="flex flex-col gap-2">
               {menu.map((m, i) => (
                 <Link
-                  key={m.to}
+                  key={m.label}
                   to={m.to}
+                  {...(m.hash ? { hash: m.hash } : {})}
                   onClick={() => setOpen(false)}
                   className="font-display text-4xl leading-tight text-ink-foreground/85 transition hover:translate-x-2 hover:text-ink-foreground sm:text-6xl"
                   style={{ transitionDelay: open ? `${i * 40}ms` : "0ms" }}
@@ -222,7 +243,7 @@ export function Footer() {
                 ["/rooms", "Stay"],
                 ["/dining", "Dine"],
                 ["/banquets", "Celebrate"],
-                ["/journal", "Blog"],
+                ["/gallery", "Gallery"],
                 ] as const
               ).map(([to, l]) => (
                 <Link key={to} to={to} className="font-display text-4xl leading-snug hover:text-gold">
@@ -250,17 +271,23 @@ export function Footer() {
             <div>
               <div className={col}>Celebrate</div>
               <div className="mt-4">
-                {venues.map((v) => (
-                  <Link key={v.name} to="/banquets" className={item}>
-                    {v.name === "Royal Casa" ? v.name : `${v.name.replace(/ Banquet$/, "")} Party Hall`}
-                  </Link>
-                ))}
-                <Link to="/banquets" className={item}>Conference room</Link>
+                <Link to="/banquets" className={item}>Royal Casa</Link>
+              </div>
+              <div className={`${col} mt-8`}>Party Halls</div>
+              <div className="mt-4">
+                {venues
+                  .filter((v) => v.name !== "Royal Casa")
+                  .map((v) => (
+                    <Link key={v.name} to="/banquets" className={item}>
+                      {v.name}
+                    </Link>
+                  ))}
               </div>
             </div>
             <div>
               <div className={col}>Resources</div>
               <div className="mt-4">
+                <Link to="/gallery" className={item}>Gallery</Link>
                 <Link to="/journal" className={item}>Blog</Link>
                 <Link to="/contact" className={item}>Contact & directions</Link>
                 <button onClick={() => openBooking("event")} className={`${item} text-left`}>
@@ -350,28 +377,46 @@ export function BgVideo({ src, poster, className = "" }: { src: string; poster: 
 
 /** Fades sections in as they scroll into view. Elements opt in with `data-reveal`. */
 export function useReveal() {
-  const path = useRouterState({ select: (s) => s.location.pathname });
   useEffect(() => {
     const root = document.documentElement;
-    root.classList.add("reveal-ready");
+    const show = (el: Element) => el.setAttribute("data-in", "");
+
+    // Without IntersectionObserver there is nothing to trigger the fade, so never hide content.
+    if (!("IntersectionObserver" in window)) {
+      document.querySelectorAll("[data-reveal]").forEach(show);
+      return;
+    }
+
     const io = new IntersectionObserver(
       (entries) =>
         entries.forEach((e) => {
           if (e.isIntersecting) {
-            e.target.classList.add("is-visible");
+            show(e.target);
             io.unobserve(e.target);
           }
         }),
       { rootMargin: "0px 0px -8% 0px", threshold: 0.08 },
     );
-    const t = setTimeout(() => {
-      document.querySelectorAll("[data-reveal]:not(.is-visible)").forEach((el) => io.observe(el));
-    }, 50);
+    const seen = new WeakSet<Element>();
+    // Picks up every [data-reveal] element, whenever it appears. A page opened by a link click
+    // mounts its content after this hook ran, so a one-off scan at navigation time can miss it.
+    const scan = () =>
+      document.querySelectorAll("[data-reveal]:not([data-in])").forEach((el) => {
+        if (!seen.has(el)) {
+          seen.add(el);
+          io.observe(el);
+        }
+      });
+    scan();
+    const mo = new MutationObserver(scan);
+    mo.observe(document.body, { childList: true, subtree: true });
+    root.classList.add("reveal-ready");
     return () => {
-      clearTimeout(t);
+      mo.disconnect();
       io.disconnect();
+      root.classList.remove("reveal-ready");
     };
-  }, [path]);
+  }, []);
 }
 
 export function PageHero({

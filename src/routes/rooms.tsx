@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { useBooking } from "@/components/site/Booking";
 import { PageHero, EmblemDivider } from "@/components/site/SiteChrome";
 import { img, rooms, policies, extraBed, inr, roomSlug } from "@/lib/hotel";
@@ -21,6 +22,50 @@ export const Route = createFileRoute("/rooms")({
   }),
   component: Rooms,
 });
+
+/** Sticky jump bar: one pill per room, name above price, the room on screen highlighted. */
+function RoomTabs() {
+  const [active, setActive] = useState(roomSlug(rooms[0]!.name));
+  useEffect(() => {
+    const els = rooms.map((r) => document.getElementById(roomSlug(r.name))).filter((el): el is HTMLElement => !!el);
+    const io = new IntersectionObserver(
+      (entries) => {
+        const hit = entries.filter((e) => e.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (hit) setActive(hit.target.id);
+      },
+      { rootMargin: "-35% 0px -55% 0px" },
+    );
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
+  return (
+    <nav aria-label="Jump to a room" className="sticky top-[60px] z-30 px-4 py-3">
+      <div className="no-scrollbar mx-auto flex max-w-3xl gap-1.5 overflow-x-auto rounded-full border border-border bg-card/95 p-1.5 shadow-[0_10px_30px_-18px_rgb(20_15_10/0.45)] backdrop-blur md:grid md:grid-cols-4">
+        {rooms.map((r) => {
+          const id = roomSlug(r.name);
+          const on = id === active;
+          return (
+            <a
+              key={id}
+              href={`#${id}`}
+              aria-current={on ? "true" : undefined}
+              className={`flex min-w-[8.5rem] shrink-0 flex-col items-center rounded-full px-4 py-2 text-center transition md:min-w-0 ${
+                on ? "bg-ink text-ink-foreground" : "text-ink/80 hover:bg-sand"
+              }`}
+            >
+              <span className="font-display text-[1.05rem] leading-tight">{r.name.replace(" Bed Room", "")}</span>
+              <span
+                className={`num mt-0.5 text-[0.6rem] uppercase tracking-[0.18em] ${on ? "text-gold" : "text-muted-foreground"}`}
+              >
+                From {inr(r.price)}
+              </span>
+            </a>
+          );
+        })}
+      </div>
+    </nav>
+  );
+}
 
 function Rooms() {
   const { openBooking } = useBooking();
@@ -51,20 +96,7 @@ function Rooms() {
         </dl>
       </section>
 
-      <nav className="sticky top-[68px] z-30 border-y border-border bg-card/95 backdrop-blur">
-        <div className="no-scrollbar mx-auto flex max-w-6xl justify-start gap-8 overflow-x-auto px-6 py-3.5 md:justify-center">
-          {rooms.map((r) => (
-            <a
-              key={r.name}
-              href={`#${roomSlug(r.name)}`}
-              className="flex shrink-0 items-baseline gap-2 text-[0.8rem] font-medium text-ink/80 hover:text-gold"
-            >
-              {r.name}
-              <span className="num text-xs text-ink/50">{inr(r.price)}</span>
-            </a>
-          ))}
-        </div>
-      </nav>
+      <RoomTabs />
 
       <section className="mx-auto max-w-6xl px-6 py-20">
         <div className="space-y-28">

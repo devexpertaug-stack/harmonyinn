@@ -179,7 +179,7 @@ export const venues = [
     for: ["Weddings", "Engagements", "Exhibitions", "Corporate galas"],
   },
   {
-    name: "Petals Banquet",
+    name: "Petals Hall and Conference",
     capacity: "25 – 500 guests",
     image: petals,
     image2: null,
@@ -187,7 +187,7 @@ export const venues = [
     for: ["Sangeet & roka", "Cocktails", "Anniversaries", "Conferences"],
   },
   {
-    name: "Ivory",
+    name: "Ivory Hall",
     capacity: "80 – 100 guests",
     image: ivory,
     image2: ivory2,
@@ -195,7 +195,7 @@ export const venues = [
     for: ["Ring ceremonies", "Birthdays", "Get-togethers", "Corporate meets"],
   },
   {
-    name: "Bluebell",
+    name: "Bluebell Hall",
     capacity: "30 – 35 guests",
     image: bluebell,
     image2: bluebell2,
@@ -206,7 +206,7 @@ export const venues = [
 
 export const weekly = [
   { day: "Tuesday", name: "Ladies Night", where: "Melting Pot", image: dining3, text: "An evening for the ladies, every Tuesday at the Melting Pot restaurant." },
-  { day: "Tuesday", name: "Ghazal Night", where: "Melting Pot", image: privatedining, text: "A candlelight dinner with live ghazals at the Melting Pot restaurant." },
+  { day: "Tuesday", name: "Ghazal Night with Candlelight", where: "Melting Pot", image: privatedining, text: "Every Tuesday, a candlelight dinner with live ghazals at the Melting Pot restaurant." },
   { day: "Thursday", name: "Retro Night", where: "Melting Pot", image: dining2, text: "Golden-era Bollywood, every Thursday at the Melting Pot restaurant." },
   { day: "Saturday", name: "Bollywood Night", where: "Melting Pot", image: meltingpot, text: "Bollywood hits and favourites, every Saturday at the Melting Pot restaurant." },
 ];
@@ -263,15 +263,24 @@ export const highlights = [
   { icon: "map-pin", label: "Heart of Meerut" },
 ] as const;
 
-/** Places around the hotel, shown in the "Explore" carousel. */
-export const spaces = [
-  { name: "The Lobby", image: lounge, text: "A carved jaali ceiling, marble floors and a carpet in royal blue. Tea is always on offer.", to: "/contact" as const },
-  { name: "Melting Pot", image: dining, text: "Indian, Oriental and Continental, cooked to order in our all-day restaurant.", to: "/dining" as const },
-  { name: "Royal Casa", image: royalcasa3, text: "Gold drapes and crystal chandeliers on the sixth floor, built for weddings.", to: "/banquets" as const },
-  { name: "Presidential Suite", image: presidential, text: "Our largest suite, with a sitting salon and marble detailing.", to: "/rooms" as const },
-  { name: "Conference Room", image: conference, text: "A boardroom for twenty, with catering from Melting Pot.", to: "/banquets" as const },
+/** Places around the hotel, shown in the "Explore" carousel, in this order. */
+type Space = { name: string; image: string; text: string } & ({ to: "/dining" | "/banquets" } | { room: string });
+const roomSpace = (name: string, text?: string): Space => {
+  const r = rooms.find((x) => x.name === name)!;
+  return { name, image: r.image, text: text ?? r.short, room: name };
+};
+export const spaces: Space[] = [
+  { name: "Melting Pot", image: dining, text: "Indian, Oriental and Continental, cooked to order, with a music night every week.", to: "/dining" },
+  { name: "Barrel Bar", image: bar, text: "A bar and lounge with friendly service, fair prices and seating for up to 75.", to: "/dining" },
+  { name: "Barrel Restaurant", image: bar3, text: "Dinner in a lounge setting, with booth seating and private areas for groups of ten.", to: "/dining" },
+  { name: "Royal Casa", image: royalcasa3, text: "Gold drapes and crystal chandeliers on the sixth floor, built for weddings.", to: "/banquets" },
+  { name: "Ivory Hall", image: ivory, text: "A centrally air-conditioned party hall for 80 to 100 guests, with lounge seating.", to: "/banquets" },
+  { name: "Petals Hall and Conference", image: conference, text: "Our hall for up to 500 guests, plus a fully equipped conference room.", to: "/banquets" },
+  roomSpace("Presidential Suite", "Our largest suite, with a sitting salon and marble detailing."),
+  roomSpace("Executive Twin Bed Room"),
+  roomSpace("Deluxe Room"),
+  roomSpace("Harmony Suite"),
 ];
-
 /** Standing offers. Kept to what the hotel already provides; edit freely. */
 export const offers = [
   { title: "Book Direct & Save", image: deluxe, text: "Our best available rate, with buffet breakfast, mineral water and free valet parking included.", cta: "Book your stay", kind: "room" as const },

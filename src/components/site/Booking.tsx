@@ -112,7 +112,7 @@ export function BookingProvider({ children }: { children: ReactNode }) {
             <SheetDescription className="mt-2 text-sm text-ink-foreground/70">
               Best rates when you book direct, with breakfast and valet parking included.
             </SheetDescription>
-            <div className="mt-6 grid grid-cols-2 border border-ink-foreground/20">
+            <div className="mt-6 grid grid-cols-2 overflow-hidden rounded-full border border-ink-foreground/20">
               {(["room", "event"] as const).map((k) => (
                 <button
                   key={k}

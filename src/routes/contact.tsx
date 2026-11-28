@@ -21,44 +21,55 @@ export const Route = createFileRoute("/contact")({
   component: Contact,
 });
 
+/* Every line of contact information uses the same size, so the three cards read alike. */
+const line = "block font-display text-xl leading-snug text-ink";
+const link = `${line} break-words transition hover:text-gold`;
+const card = "rounded-2xl border border-border bg-card p-8";
+
 function Contact() {
   const { openBooking } = useBooking();
-  const card = "rounded-2xl border border-border bg-card p-10";
   return (
     <>
       <PageHero eyebrow="Contact" title="We look forward to welcoming you." image={img.porch} />
-      <section className="mx-auto grid max-w-6xl gap-6 px-6 py-24 md:grid-cols-3">
+      <section className="mx-auto grid max-w-6xl gap-6 px-6 py-20 md:grid-cols-3">
         <div className={card} data-reveal>
-          <MapPin className="h-8 w-8 text-gold" strokeWidth={1} />
-          <div className="eyebrow mt-6">Address</div>
-          <p className="mt-3 font-display text-2xl leading-snug text-ink">
-            Opp. Nai Sadak, Main Garh Road, Meerut (U.P) <span className="num">250002</span>
-          </p>
-          <a href={contact.maps} target="_blank" rel="noreferrer" className="btn btn-ghost mt-8 !py-2.5">
+          <MapPin className="h-7 w-7 text-gold" strokeWidth={1} />
+          <div className="eyebrow mt-5">Address</div>
+          <div className="mt-3 space-y-1">
+            <p className={line}>Opp. Nai Sadak, Main Garh Road</p>
+            <p className={line}>
+              Meerut (U.P) <span className="num">250002</span>
+            </p>
+          </div>
+          <a href={contact.maps} target="_blank" rel="noreferrer" className="btn btn-ghost mt-7 !py-2.5">
             Get Directions
           </a>
         </div>
         <div className={card} data-reveal>
-          <Phone className="h-8 w-8 text-gold" strokeWidth={1} />
-          <div className="eyebrow mt-6">Telephone</div>
-          {contact.phones.map((p) => (
-            <a key={p} href={`tel:${p.replace(/[^+\d]/g, "")}`} className="num mt-3 block font-display text-2xl text-ink hover:text-gold">
-              {p}
-            </a>
-          ))}
+          <Phone className="h-7 w-7 text-gold" strokeWidth={1} />
+          <div className="eyebrow mt-5">Telephone</div>
+          <div className="mt-3 space-y-1">
+            {contact.phones.map((p) => (
+              <a key={p} href={`tel:${p.replace(/[^+\d]/g, "")}`} className={`${link} num`}>
+                {p}
+              </a>
+            ))}
+          </div>
         </div>
         <div className={card} data-reveal>
-          <Mail className="h-8 w-8 text-gold" strokeWidth={1} />
-          <div className="eyebrow mt-6">Email & chat</div>
-          <a href={`mailto:${contact.email}`} className="mt-3 block break-all font-display text-2xl text-ink hover:text-gold">
-            {contact.email}
-          </a>
-          <a href={`mailto:${contact.enquiryEmail}`} className="mt-1 block break-all text-sm text-ink/65 hover:text-gold">
-            Events: {contact.enquiryEmail}
-          </a>
-          <a href={contact.whatsapp} target="_blank" rel="noreferrer" className="btn btn-gold mt-8 !py-2.5">
-            WhatsApp Us
-          </a>
+          <Mail className="h-7 w-7 text-gold" strokeWidth={1} />
+          <div className="eyebrow mt-5">Email &amp; chat</div>
+          <div className="mt-3 space-y-1">
+            <a href={`mailto:${contact.email}`} className={link}>
+              {contact.email}
+            </a>
+            <a href={`mailto:${contact.enquiryEmail}`} className={link}>
+              {contact.enquiryEmail}
+            </a>
+            <a href={contact.whatsapp} target="_blank" rel="noreferrer" className={`${link} num`}>
+              WhatsApp {contact.phones[0]}
+            </a>
+          </div>
         </div>
       </section>
       <section className="bg-sand">

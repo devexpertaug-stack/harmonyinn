@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as BanquetsRouteImport } from './routes/banquets'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as DiningRouteImport } from './routes/dining'
+import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as RoomsRouteImport } from './routes/rooms'
 import { Route as JournalIndexRouteImport } from './routes/journal.index'
 import { Route as JournalSlugRouteImport } from './routes/journal.$slug'
@@ -36,6 +37,11 @@ const ContactRoute = ContactRouteImport.update({
 const DiningRoute = DiningRouteImport.update({
   id: '/dining',
   path: '/dining',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GalleryRoute = GalleryRouteImport.update({
+  id: '/gallery',
+  path: '/gallery',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RoomsRoute = RoomsRouteImport.update({
@@ -64,6 +70,7 @@ export interface FileRoutesByFullPath {
   '/banquets': typeof BanquetsRoute
   '/contact': typeof ContactRoute
   '/dining': typeof DiningRoute
+  '/gallery': typeof GalleryRoute
   '/rooms': typeof RoomsRoute
   '/journal/$slug': typeof JournalSlugRoute
   '/rooms/$slug': typeof RoomsSlugRoute
@@ -74,6 +81,7 @@ export interface FileRoutesByTo {
   '/banquets': typeof BanquetsRoute
   '/contact': typeof ContactRoute
   '/dining': typeof DiningRoute
+  '/gallery': typeof GalleryRoute
   '/rooms': typeof RoomsRoute
   '/journal/$slug': typeof JournalSlugRoute
   '/rooms/$slug': typeof RoomsSlugRoute
@@ -85,6 +93,7 @@ export interface FileRoutesById {
   '/banquets': typeof BanquetsRoute
   '/contact': typeof ContactRoute
   '/dining': typeof DiningRoute
+  '/gallery': typeof GalleryRoute
   '/rooms': typeof RoomsRoute
   '/journal/$slug': typeof JournalSlugRoute
   '/rooms_/$slug': typeof RoomsSlugRoute
@@ -97,6 +106,7 @@ export interface FileRouteTypes {
     | '/banquets'
     | '/contact'
     | '/dining'
+    | '/gallery'
     | '/rooms'
     | '/journal/$slug'
     | '/rooms/$slug'
@@ -107,6 +117,7 @@ export interface FileRouteTypes {
     | '/banquets'
     | '/contact'
     | '/dining'
+    | '/gallery'
     | '/rooms'
     | '/journal/$slug'
     | '/rooms/$slug'
@@ -117,6 +128,7 @@ export interface FileRouteTypes {
     | '/banquets'
     | '/contact'
     | '/dining'
+    | '/gallery'
     | '/rooms'
     | '/journal/$slug'
     | '/rooms_/$slug'
@@ -128,6 +140,7 @@ export interface RootRouteChildren {
   BanquetsRoute: typeof BanquetsRoute
   ContactRoute: typeof ContactRoute
   DiningRoute: typeof DiningRoute
+  GalleryRoute: typeof GalleryRoute
   RoomsRoute: typeof RoomsRoute
   JournalSlugRoute: typeof JournalSlugRoute
   RoomsSlugRoute: typeof RoomsSlugRoute
@@ -162,6 +175,13 @@ declare module '@tanstack/react-router' {
       path: '/dining'
       fullPath: '/dining'
       preLoaderRoute: typeof DiningRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gallery': {
+      id: '/gallery'
+      path: '/gallery'
+      fullPath: '/gallery'
+      preLoaderRoute: typeof GalleryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/rooms': {
@@ -200,6 +220,7 @@ const rootRouteChildren: RootRouteChildren = {
   BanquetsRoute: BanquetsRoute,
   ContactRoute: ContactRoute,
   DiningRoute: DiningRoute,
+  GalleryRoute: GalleryRoute,
   RoomsRoute: RoomsRoute,
   JournalSlugRoute: JournalSlugRoute,
   RoomsSlugRoute: RoomsSlugRoute,

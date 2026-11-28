@@ -128,13 +128,13 @@ function Hero() {
 
       {/* Booking bar */}
       <div className="absolute inset-x-0 bottom-0">
-        <div className="mx-auto max-w-7xl px-0 sm:px-6">
+        <div className="mx-auto max-w-7xl px-0 sm:px-6 sm:pb-6">
           <form
             onSubmit={(e) => {
               e.preventDefault();
               openBooking("room", undefined, { checkIn: ci, checkOut: co, guests });
             }}
-            className="grid grid-cols-2 bg-ivory text-foreground shadow-2xl md:grid-cols-[1fr_1fr_1fr_auto]"
+            className="grid grid-cols-2 overflow-hidden rounded-t-2xl bg-ivory text-foreground shadow-2xl sm:rounded-2xl md:grid-cols-[1fr_1fr_1fr_auto]"
           >
             <label className={cell}>
               <span className={label}>Check-in</span>
@@ -171,7 +171,7 @@ function Hero() {
                 ))}
               </select>
             </label>
-            <button type="submit" className="btn btn-gold col-span-2 !py-6 md:col-span-1 md:!px-12">
+            <button type="submit" className="btn btn-gold col-span-2 m-3 !py-4 md:col-span-1 md:!px-10">
               Check availability
             </button>
           </form>
@@ -242,10 +242,12 @@ function RateBand() {
 }
 
 /* ------------------------- Stay / Dine / Celebrate / Meet ------------------ */
+/* Four panels in the normal page flow: they scroll with the page, nothing slides or auto-plays. */
 
 function Pillars() {
   const { openBooking } = useBooking();
-  const slides: {
+  const small = "!px-5 !py-3 !text-[0.62rem] !tracking-[0.22em]";
+  const panels: {
     word: string;
     line: string;
     text: string;
@@ -259,12 +261,12 @@ function Pillars() {
       text: "Four room categories, from a twin room for the working traveller to a suite with its own salon.",
       image: img.suite,
       primary: (
-        <button onClick={() => openBooking("room")} className="btn btn-gold">
+        <button onClick={() => openBooking("room")} className={`btn btn-gold ${small}`}>
           Book Your Stay
         </button>
       ),
       secondary: (
-        <Link to="/rooms" className="btn btn-light">
+        <Link to="/rooms" className={`btn btn-light ${small}`}>
           Explore Rooms
         </Link>
       ),
@@ -275,13 +277,13 @@ function Pillars() {
       text: "Melting Pot cooks Indian, Oriental and Continental to order, with a music night every week.",
       image: img.dining,
       primary: (
-        <a href={contact.phoneHref} className="btn btn-gold">
+        <a href={contact.phoneHref} className={`btn btn-gold ${small}`}>
           Book Your Table
         </a>
       ),
       secondary: (
-        <Link to="/dining" className="btn btn-light">
-          Discover Our Restaurants
+        <Link to="/dining" className={`btn btn-light ${small}`}>
+          Explore Dining
         </Link>
       ),
     },
@@ -291,12 +293,12 @@ function Pillars() {
       text: "Four halls, from Bluebell for thirty to Royal Casa beneath gold drapes on the sixth floor.",
       image: img.banquet,
       primary: (
-        <button onClick={() => openBooking("event")} className="btn btn-gold">
+        <button onClick={() => openBooking("event")} className={`btn btn-gold ${small}`}>
           Plan Your Event
         </button>
       ),
       secondary: (
-        <Link to="/banquets" className="btn btn-light">
+        <Link to="/banquets" className={`btn btn-light ${small}`}>
           Explore Venues
         </Link>
       ),
@@ -307,112 +309,35 @@ function Pillars() {
       text: "A fully equipped conference room, catering from Melting Pot and rooms upstairs for delegates.",
       image: img.conference,
       primary: (
-        <button onClick={() => openBooking("event")} className="btn btn-gold">
+        <button onClick={() => openBooking("event")} className={`btn btn-gold ${small}`}>
           Enquire Now
         </button>
       ),
       secondary: (
-        <Link to="/banquets" className="btn btn-light">
+        <Link to="/banquets" hash="conference" className={`btn btn-light ${small}`}>
           Our Spaces
         </Link>
       ),
     },
   ];
-  const n = slides.length;
-  const [active, setActive] = useState(0);
-  const [hold, setHold] = useState(false);
-  const DURATION = 7000;
-
-  useEffect(() => {
-    if (hold) return;
-    const t = setTimeout(() => setActive((a) => (a + 1) % n), DURATION);
-    return () => clearTimeout(t);
-  }, [active, hold, n]);
 
   return (
-    <section
-      className="relative overflow-hidden bg-ink text-ink-foreground"
-      onMouseEnter={() => setHold(true)}
-      onMouseLeave={() => setHold(false)}
-    >
-      {slides.map((s, i) => (
-        <img
-          key={s.word}
-          src={s.image}
-          alt=""
-          loading="lazy"
-          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-[1400ms] ${
-            i === active ? "opacity-25" : "opacity-0"
-          }`}
-        />
-      ))}
-      <div className="absolute inset-0 bg-gradient-to-b from-ink/40 via-ink/20 to-ink/60" />
-
-      <div className="relative py-24 md:py-32">
-        <div className="relative h-[4.5rem] sm:h-[7rem] md:h-[9rem]">
-          {slides.map((s, i) => {
-            const off = (i - active + n) % n;
-            // Only the current word and its two neighbours are shown. The word on the far side
-            // waits off-screen (hidden, no transition) so it never sweeps across the slider.
-            const hidden = off !== 0 && off !== 1 && off !== n - 1;
-            const pos = off === 0 ? "50%" : off === 1 ? "100%" : off === n - 1 ? "0%" : "150%";
-            return (
-              <button
-                key={s.word}
-                onClick={() => setActive(i)}
-                tabIndex={off === 0 || hidden ? -1 : 0}
-                aria-hidden={hidden || undefined}
-                aria-label={`Show ${s.word}`}
-                className={`absolute top-0 -translate-x-1/2 whitespace-nowrap font-display text-[3.6rem] leading-none transition-all duration-[1100ms] ease-[cubic-bezier(.2,.7,.2,1)] sm:text-[5.75rem] md:text-[7.5rem] ${
-                  off === 0 ? "text-ink-foreground" : "text-ink-foreground/35 hover:text-ink-foreground/60"
-                }`}
-                style={{
-                  left: pos,
-                  opacity: hidden ? 0 : 1,
-                  pointerEvents: hidden ? "none" : undefined,
-                  transition: hidden ? "none" : undefined,
-                }}
-              >
-                {s.word}
-              </button>
-            );
-          })}
-        </div>
-
-        <div className="mx-auto mt-10 max-w-md px-6 text-center" aria-live="polite">
-          <div key={active} className="animate-rise">
-            <h3 className="font-display text-xl text-ink-foreground">{slides[active]!.line}</h3>
-            <p className="mt-3 text-[0.88rem] leading-relaxed text-ink-foreground/80">{slides[active]!.text}</p>
-            <div className="mt-10 flex flex-wrap justify-center gap-3">
-              {slides[active]!.primary}
-              {slides[active]!.secondary}
+    <section className="grid bg-ink text-ink-foreground sm:grid-cols-2 lg:grid-cols-4" aria-label="Stay, dine, celebrate and meet">
+      {panels.map((s) => (
+        <div key={s.word} className="img-zoom group relative flex min-h-[26rem] flex-col justify-end lg:min-h-[32rem]">
+          <img src={s.image} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/45 to-ink/15" />
+          <div className="relative p-7 sm:p-8">
+            <h3 className="font-display text-5xl">{s.word}</h3>
+            <p className="mt-2 font-display text-lg italic text-ink-foreground/90">{s.line}</p>
+            <p className="mt-3 text-[0.86rem] leading-relaxed text-ink-foreground/80">{s.text}</p>
+            <div className="mt-6 flex flex-wrap gap-2.5">
+              {s.primary}
+              {s.secondary}
             </div>
           </div>
         </div>
-
-        <div className="mx-auto mt-20 flex max-w-xs gap-1.5 px-6">
-          {slides.map((s, i) => (
-            <button
-              key={s.word}
-              onClick={() => setActive(i)}
-              aria-label={`Go to ${s.word}`}
-              className="relative h-[2px] flex-1 overflow-hidden bg-card/25"
-            >
-              {i === active && (
-                <span
-                  key={`${active}-${hold}`}
-                  className={`absolute inset-0 bg-sand ${hold ? "" : "animate-progress"}`}
-                  style={{ animationDuration: `${DURATION}ms` }}
-                />
-              )}
-              {i < active && <span className="absolute inset-0 bg-card/60" />}
-            </button>
-          ))}
-        </div>
-        <div className="num mt-4 text-center text-xs text-ink-foreground/80">
-          <span className="font-semibold text-ink-foreground">{active + 1}</span> / {n}
-        </div>
-      </div>
+      ))}
     </section>
   );
 }
@@ -425,10 +350,10 @@ function RoomsSection() {
   const { openBooking } = useBooking();
   const [active, setActive] = useState(0);
   return (
-    <section className="mx-auto max-w-5xl px-6 py-20 md:px-10 md:py-24">
+    <section className="mx-auto max-w-6xl px-6 py-16 md:px-8 md:py-20">
       <div className="text-center" data-reveal>
         <div className="eyebrow">Accommodation</div>
-        <h2 className="mt-3 text-4xl md:text-5xl">Rooms &amp; Suites</h2>
+        <h2 className="mt-3 text-5xl md:text-6xl">Rooms &amp; Suites</h2>
         <Link
           to="/rooms"
           className="mt-5 inline-block text-[0.65rem] uppercase tracking-[0.3em] underline-offset-8 hover:text-gold hover:underline"
@@ -436,17 +361,17 @@ function RoomsSection() {
           All rooms →
         </Link>
       </div>
-      <div className="mt-12 grid items-start gap-10 md:grid-cols-[1.1fr_0.9fr]">
+      <div className="mt-10 grid items-start gap-10 md:grid-cols-[1fr_1fr]">
         <ul>
           {rooms.map((r, i) => (
             <li
               key={r.name}
               onMouseEnter={() => setActive(i)}
               onClick={() => setActive(i)}
-              className={`group cursor-pointer border-t py-5 transition ${active === i ? "" : "opacity-50 hover:opacity-100"}`}
+              className={`group cursor-pointer border-t py-6 transition ${active === i ? "" : "opacity-50 hover:opacity-100"}`}
             >
               <div className="flex items-baseline gap-6">
-                <h3 className="flex-1 text-2xl sm:text-3xl">{r.name}</h3>
+                <h3 className="flex-1 text-3xl sm:text-4xl">{r.name}</h3>
                 <span className="num hidden text-xs uppercase tracking-[0.2em] text-muted-foreground sm:inline">
                   {r.size}
                 </span>
@@ -609,6 +534,31 @@ function RailArrows({ rail, className = "" }: { rail: ReturnType<typeof useRail>
   );
 }
 
+function ExploreCard({ s }: { s: (typeof spaces)[number] }) {
+  const cls = "group w-[78vw] shrink-0 snap-start sm:w-[22rem]";
+  const body = (
+    <>
+      <div className="img-zoom aspect-[4/5]">
+        <img src={s.image} alt={s.name} loading="lazy" className="h-full w-full object-cover" />
+      </div>
+      <h3 className="mt-5 text-2xl text-ink">{s.name}</h3>
+      <p className="mt-2 text-[0.86rem] leading-relaxed text-ink/70">{s.text}</p>
+      <span className="link-line mt-4">
+        Discover <ArrowRight className="h-3.5 w-3.5" />
+      </span>
+    </>
+  );
+  return "room" in s ? (
+    <Link to="/rooms/$slug" params={{ slug: roomSlug(s.room) }} className={cls}>
+      {body}
+    </Link>
+  ) : (
+    <Link to={s.to} className={cls}>
+      {body}
+    </Link>
+  );
+}
+
 function Explore() {
   const rail = useRail();
   return (
@@ -623,16 +573,7 @@ function Explore() {
         className="no-scrollbar rail mt-12 flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth"
       >
         {spaces.map((s) => (
-          <Link key={s.name} to={s.to} className="group w-[78vw] shrink-0 snap-start sm:w-[22rem]">
-            <div className="img-zoom aspect-[4/5]">
-              <img src={s.image} alt={s.name} loading="lazy" className="h-full w-full object-cover" />
-            </div>
-            <h3 className="mt-5 text-2xl text-ink">{s.name}</h3>
-            <p className="mt-2 text-[0.86rem] leading-relaxed text-ink/70">{s.text}</p>
-            <span className="link-line mt-4">
-              Discover <ArrowRight className="h-3.5 w-3.5" />
-            </span>
-          </Link>
+          <ExploreCard key={s.name} s={s} />
         ))}
       </div>
     </section>
@@ -756,9 +697,14 @@ function Gallery() {
       </div>
       <div className="mt-12 flex flex-col items-center gap-6">
         <Emblem className="h-7 w-12 text-gold" />
-        <a href={ig} target="_blank" rel="noreferrer" className="btn btn-gold">
-          <Instagram className="h-4 w-4" strokeWidth={1.5} /> View Our Instagram
-        </a>
+        <div className="flex flex-wrap justify-center gap-3">
+          <Link to="/gallery" className="btn btn-gold">
+            View Full Gallery
+          </Link>
+          <a href={ig} target="_blank" rel="noreferrer" className="btn btn-ghost">
+            <Instagram className="h-4 w-4" strokeWidth={1.5} /> Instagram
+          </a>
+        </div>
       </div>
     </section>
   );

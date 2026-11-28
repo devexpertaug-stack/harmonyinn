@@ -10,7 +10,7 @@ export const Route = createFileRoute("/banquets")({
       {
         name: "description",
         content:
-          "Petals Banquet for up to 500 guests, Royal Casa terrace venue, Ivory and Bluebell party halls — weddings, sangeet, parties and conferences.",
+          "Royal Casa, Petals Hall and Conference (up to 500 guests), Ivory Hall and Bluebell Hall: weddings, sangeet, parties and conferences at Hotel Harmony Inn, Meerut.",
       },
       { property: "og:title", content: "Banquets & Celebrations — Hotel Harmony Inn" },
       { property: "og:description", content: "Meerut's finest venues for weddings, parties and conferences." },
@@ -83,12 +83,15 @@ function Banquets() {
         ))}
       </section>
 
-      <section className="mx-auto grid max-w-6xl items-center gap-12 px-6 py-24 md:grid-cols-[1fr_1.3fr]">
+      <section
+        id="conference"
+        className="mx-auto grid max-w-6xl scroll-mt-20 items-center gap-12 px-6 py-24 md:grid-cols-[1fr_1.3fr]"
+      >
         <div className="img-zoom aspect-[4/5]" data-reveal>
           <img src={img.conference} alt="Conference room" loading="lazy" className="h-full w-full object-cover" />
         </div>
         <div data-reveal>
-          <div className="eyebrow">Meet</div>
+          <div className="eyebrow">Conference</div>
           <h2 className="mt-3 text-4xl text-ink md:text-5xl">A conference room, fully equipped.</h2>
           <p className="mt-6 leading-relaxed text-ink/75">
             For board meetings, training days and product launches, with catering from Melting Pot
